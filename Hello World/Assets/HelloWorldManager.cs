@@ -66,7 +66,7 @@ public class HelloWorldManager : MonoBehaviour
         else if (NetworkManager.Singleton.IsServer) status.text = "Connected as Server";
         else status.text = "NOT CONNECTED";
 
-        if (NetworkManager.Singleton.IsHost) message.text = PlayerPrefs.GetString("playerName");
+        //if (NetworkManager.Singleton.IsHost) message.text = PlayerPrefs.GetString("playerName");
 
         bool bActive = NetworkManager.Singleton.IsClient || NetworkManager.Singleton.IsServer;
         buttonHost.gameObject.SetActive(!bActive);
