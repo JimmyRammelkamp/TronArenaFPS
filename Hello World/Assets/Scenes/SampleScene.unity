@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &39883471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3859,10 +3859,10 @@ MonoBehaviour:
   status: {fileID: 2106298035}
   message: {fileID: 726354368}
   buttonHost: {fileID: 1098880047}
-  buttonPlay: {fileID: 1730527753}
+  buttonPlayClient: {fileID: 1730527753}
   buttonServer: {fileID: 1971306338}
   buttonShutdown: {fileID: 643202239}
-  IPaddress: {fileID: 1725821467}
+  IPAddress: {fileID: 1725821467}
   port: {fileID: 589863980}
   playerName: {fileID: 55036115}
 --- !u!1 &1151133998
