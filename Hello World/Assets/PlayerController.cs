@@ -8,7 +8,7 @@ public class PlayerController : NetworkBehaviour
 {
     public float turnSpeed = 180;
     public float tiltSpeed = 180;
-    public float walkSpeed = 1;
+    public float walkSpeed = 5;
 
     [SerializeField]
     private Transform fpcam;
@@ -16,17 +16,22 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private Transform prefab;
 
     [SerializeField]
-    TextMesh nick;
+    TextMesh playerNameDisplay;
 
     //NetworkVariable<float> forward = new NetworkVariable<float>(0,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
     //NetworkVariable<float> turn = new NetworkVariable<float>(0,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-    //NetworkVariable<FixedString128Bytes> nickname = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
+    public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
 
     // Start is called before the first frame update
     void Start()
     {
-        // Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        if (IsOwner) playerName.Value = PlayerPrefs.GetString("PlayerName");
+
+        playerNameDisplay.text = playerName.Value.ToString();
     }
 
 
@@ -40,11 +45,15 @@ public class PlayerController : NetworkBehaviour
             {
                 SpawnServerRpc();
             }
-            float forward = Input.GetAxis("Vertical");
-            float turn = Input.GetAxis("Horizontal") + Input.GetAxis("Mouse X");
-            transform.Translate(new Vector3(0, 0, forward * walkSpeed * Time.deltaTime));
+            if (Input.GetKeyDown(KeyCode.Mouse0)) HitScanServerRpc();
+            float forward = Input.GetAxisRaw("Vertical");
+            float turn =  Input.GetAxis("Mouse X");
+            float right = Input.GetAxisRaw("Horizontal");
+            transform.Translate(new Vector3(right, 0, forward).normalized * walkSpeed * Time.deltaTime);
             transform.Rotate(new Vector3(0, turn * turnSpeed * Time.deltaTime, 0));
             //RelayInputServerRpc(forward *walkSpeed * Time.deltaTime, turn * turnSpeed * Time.deltaTime); //this needs time delta time
+
+
 
         }
         //if(IsServer)
@@ -64,7 +73,7 @@ public class PlayerController : NetworkBehaviour
             fpcam.GetComponent<Camera>().enabled = !fpcam.GetComponent<Camera>().enabled;
         }
 
-        //nick.text = nickname.Value.ToString();
+        
     }
 
     [ServerRpc]
@@ -72,6 +81,27 @@ public class PlayerController : NetworkBehaviour
     {
         transform.Translate(new Vector3(0, 0, forward));
         transform.Rotate(new Vector3(0, turn, 0));
+    }
+
+    [ServerRpc]
+    void HitScanServerRpc()
+    {
+        RaycastHit hit;
+        // Does the ray intersect any objects excluding the player layer
+        if (Physics.Raycast(fpcam.position, fpcam.forward, out hit, Mathf.Infinity))
+        {
+            if (hit.collider.CompareTag("Player"))
+            {
+               //Debug.DrawRay(, fpcam.forward * hit.distance, Color.yellow);
+                Debug.Log("Did Hit");
+            }
+            
+        }
+        else
+        {
+            Debug.DrawRay(fpcam.position, fpcam.forward * 1000, Color.white);
+            Debug.Log("Did not Hit");
+        }
     }
 
     [ServerRpc]
@@ -110,9 +140,4 @@ public class PlayerController : NetworkBehaviour
             topcam.enabled = true;
         }
     }
-
-    //public void SetNickname(string name)
-    //{
-    //    nickname.Value = name;
-    //}
 }
