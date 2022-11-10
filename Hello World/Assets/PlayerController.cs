@@ -31,7 +31,9 @@ public class PlayerController : NetworkBehaviour
 
         if (IsOwner) playerName.Value = PlayerPrefs.GetString("PlayerName");
 
-        playerNameDisplay.text = playerName.Value.ToString();
+        SetNameServerRpc(playerName.Value.ToString());
+
+        //playerNameDisplay.text = playerName.Value.ToString();
     }
 
 
@@ -74,6 +76,13 @@ public class PlayerController : NetworkBehaviour
         }
 
         
+    }
+
+
+    [ServerRpc]
+    void SetNameServerRpc(string name)
+    {
+        playerNameDisplay.text = name;
     }
 
     [ServerRpc]
