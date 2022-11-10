@@ -10,6 +10,16 @@ public class PlayerController : NetworkBehaviour
     public float tiltSpeed = 180;
     public float walkSpeed = 5;
 
+    public enum team
+    {
+        Team1,
+        Team2
+    }
+
+    public team myTeam = team.Team1;
+
+
+
     [SerializeField]
     private Transform fpcam;
     private Camera topcam;
@@ -23,17 +33,24 @@ public class PlayerController : NetworkBehaviour
 
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
 
+    public NetworkVariable<int> playerHealth = new NetworkVariable<int>(10, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    private void Awake()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
 
         if (IsOwner) playerName.Value = PlayerPrefs.GetString("PlayerName");
 
-        SetNameServerRpc(playerName.Value.ToString());
+        // SetNameServerRpc(playerName.Value.ToString());
 
-        //playerNameDisplay.text = playerName.Value.ToString();
+        
     }
 
 
@@ -41,12 +58,11 @@ public class PlayerController : NetworkBehaviour
      // Update is called once per frame
     void Update()
     {
+        playerNameDisplay.text = playerName.Value.ToString() + myTeam;
+
         if (IsOwner)
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                SpawnServerRpc();
-            }
+            if (Input.GetKeyDown(KeyCode.E)) SpawnServerRpc();
             if (Input.GetKeyDown(KeyCode.Mouse0)) HitScanServerRpc();
             float forward = Input.GetAxisRaw("Vertical");
             float turn =  Input.GetAxis("Mouse X");
@@ -73,9 +89,18 @@ public class PlayerController : NetworkBehaviour
             //swap cameras
             topcam.enabled = !topcam.enabled;
             fpcam.GetComponent<Camera>().enabled = !fpcam.GetComponent<Camera>().enabled;
+
+      //  https://addam-davis1989.medium.com/jumping-with-physics-based-character-controller-in-unity-45462a04e62
         }
 
         
+    }
+
+    public void Hit(int damage)
+    {
+        playerHealth.Value -= damage;
+        Debug.Log(playerName.Value + " has been hit for " + damage + " damage" );
+        Debug.Log(playerName.Value + " is at " + playerHealth.Value + " health" );
     }
 
 
@@ -101,15 +126,16 @@ public class PlayerController : NetworkBehaviour
         {
             if (hit.collider.CompareTag("Player"))
             {
-               //Debug.DrawRay(, fpcam.forward * hit.distance, Color.yellow);
-                Debug.Log("Did Hit");
+                FindObjectOfType<HelloWorldManager>().DamagePlayerClientRpc(hit.collider.gameObject.GetComponent<PlayerController>(), 2);
+                Debug.DrawRay(fpcam.position, fpcam.forward * hit.distance, Color.yellow);
+                Debug.Log(playerName.Value + "Landed a Shot");
             }
             
         }
         else
         {
             Debug.DrawRay(fpcam.position, fpcam.forward * 1000, Color.white);
-            Debug.Log("Did not Hit");
+            Debug.Log(playerName.Value + "Hit Nothing");
         }
     }
 
@@ -123,6 +149,7 @@ public class PlayerController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        
         if (IsOwner)
         {
             transform.position = new Vector3(Random.Range(-20f, 20f), 1f, Random.Range(-20f, 20f));
@@ -138,6 +165,7 @@ public class PlayerController : NetworkBehaviour
         else
         {
             fpcam.GetComponent<Camera>().enabled = false;
+
         }
     }
 

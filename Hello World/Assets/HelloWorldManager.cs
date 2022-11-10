@@ -24,6 +24,7 @@ public class HelloWorldManager : MonoBehaviour
         port.text = PlayerPrefs.GetString("port");
         if (port.text == "") port.text = ((UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport).ConnectionData.Port.ToString();
         playerName.text = PlayerPrefs.GetString("PlayerName");
+        
 
         buttonHost.onClick.AddListener(StartHost);
         buttonPlayClient.onClick.AddListener(StartClient);
@@ -104,10 +105,14 @@ public class HelloWorldManager : MonoBehaviour
 
     void Update()
     {
+
     }
 
-
-
+    [ClientRpc]
+    public void DamagePlayerClientRpc(PlayerController player, int damage)
+    {
+        player.Hit(damage);
+    }
 
     //private void Start()
     //{
