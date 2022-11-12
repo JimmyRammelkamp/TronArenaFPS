@@ -508,6 +508,7 @@ MonoBehaviour:
   turnSpeed: 270
   tiltSpeed: 270
   walkSpeed: 7
+  myTeam: 0
   fpcam: {fileID: 530614559183772395}
   prefab: {fileID: 400914745412888035, guid: c9ad38acd71471540a7e59c2994a0efa, type: 3}
   playerNameDisplay: {fileID: 530614559549840127}
@@ -648,6 +649,8 @@ MonoBehaviour:
         byte0123: 0
         byte0124: 0
         byte0125: 0
+  playerHealth:
+    m_InternalValue: 10
 --- !u!114 &9010949427470988227
 MonoBehaviour:
   m_ObjectHideFlags: 0

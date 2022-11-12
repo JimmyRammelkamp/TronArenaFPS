@@ -9,7 +9,13 @@ public class PlayerController : NetworkBehaviour
     public float turnSpeed = 180;
     public float tiltSpeed = 180;
     public float walkSpeed = 5;
+    public float gravity = 9.81f;
+    public float jumpSpeed = 5;
+    public float jumpBoostMultiplier = 1.2f;
 
+    Vector3 moveDirection = Vector3.zero;
+
+    public CharacterController characterController;
     public enum team
     {
         Team1,
@@ -48,30 +54,49 @@ public class PlayerController : NetworkBehaviour
 
         if (IsOwner) playerName.Value = PlayerPrefs.GetString("PlayerName");
 
-        // SetNameServerRpc(playerName.Value.ToString());
 
+        characterController = GetComponent<CharacterController>();
         
-    }
+        
+
+            // SetNameServerRpc(playerName.Value.ToString());
+
+
+        }
 
 
 
      // Update is called once per frame
     void Update()
     {
-        playerNameDisplay.text = playerName.Value.ToString() + myTeam;
 
+        playerNameDisplay.text = playerName.Value.ToString() + myTeam;
         if (IsOwner)
         {
-            if (Input.GetKeyDown(KeyCode.E)) SpawnServerRpc();
+            if (Input.GetKeyDown(KeyCode.E)) WallSpawnServerRpc();
             if (Input.GetKeyDown(KeyCode.Mouse0)) HitScanServerRpc();
             float forward = Input.GetAxisRaw("Vertical");
             float turn =  Input.GetAxis("Mouse X");
             float right = Input.GetAxisRaw("Horizontal");
-            transform.Translate(new Vector3(right, 0, forward).normalized * walkSpeed * Time.deltaTime);
+            //transform.Translate(new Vector3(right, 0, forward).normalized * walkSpeed * Time.deltaTime);
             transform.Rotate(new Vector3(0, turn * turnSpeed * Time.deltaTime, 0));
             //RelayInputServerRpc(forward *walkSpeed * Time.deltaTime, turn * turnSpeed * Time.deltaTime); //this needs time delta time
 
+            if (characterController.isGrounded)
+            { 
+                moveDirection = ((transform.TransformDirection(Vector3.forward)* forward) + (transform.TransformDirection(Vector3.right)*right)).normalized;
+                moveDirection *= walkSpeed;
 
+                if (Input.GetButton("Jump"))
+                {
+                    moveDirection *= jumpBoostMultiplier;
+                    moveDirection.y = jumpSpeed;
+                }
+            }
+            else
+            {
+            
+            }
 
         }
         //if(IsServer)
@@ -84,16 +109,18 @@ public class PlayerController : NetworkBehaviour
         float tilt = Input.GetAxis("Mouse Y");
         if (fpcam != null)
             fpcam.Rotate(new Vector3(-tilt * tiltSpeed * Time.deltaTime, 0));
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //swap cameras
-            topcam.enabled = !topcam.enabled;
-            fpcam.GetComponent<Camera>().enabled = !fpcam.GetComponent<Camera>().enabled;
-
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    //swap cameras
+        //    topcam.enabled = !topcam.enabled;
+        //    fpcam.GetComponent<Camera>().enabled = !fpcam.GetComponent<Camera>().enabled;
+        //}
       //  https://addam-davis1989.medium.com/jumping-with-physics-based-character-controller-in-unity-45462a04e62
-        }
-
         
+
+
+        moveDirection.y -= gravity * Time.deltaTime;
+        characterController.Move(moveDirection * Time.deltaTime);
     }
 
     public void Hit(int damage)
@@ -140,7 +167,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     [ServerRpc]
-    void SpawnServerRpc()
+    void WallSpawnServerRpc()
     {
         var obj = Instantiate(prefab);
         obj.position = transform.position + 4 * transform.forward;

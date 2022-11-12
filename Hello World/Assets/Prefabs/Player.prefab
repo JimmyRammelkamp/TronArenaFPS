@@ -393,6 +393,7 @@ GameObject:
   - component: {fileID: 852895073204805670}
   - component: {fileID: 852895073204805674}
   - component: {fileID: 8726734826054446617}
+  - component: {fileID: -5548802788612748730}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -481,7 +482,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 852895073204805673}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -501,6 +502,8 @@ MonoBehaviour:
   turnSpeed: 270
   tiltSpeed: 270
   walkSpeed: 5
+  characterController: {fileID: 0}
+  myTeam: 0
   fpcam: {fileID: 1543463219284506864}
   prefab: {fileID: 400914745412888035, guid: c9ad38acd71471540a7e59c2994a0efa, type: 3}
   playerNameDisplay: {fileID: 8970637748038542663}
@@ -641,6 +644,8 @@ MonoBehaviour:
         byte0123: 0
         byte0124: 0
         byte0125: 0
+  playerHealth:
+    m_InternalValue: 10
 --- !u!114 &852895073204805674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -683,6 +688,24 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
+--- !u!143 &-5548802788612748730
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852895073204805673}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1103687434040286757
 GameObject:
   m_ObjectHideFlags: 0
