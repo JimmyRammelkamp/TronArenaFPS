@@ -776,6 +776,10 @@ MonoBehaviour:
     m_InternalValue: 10
   playerIsDead:
     m_InternalValue: 0
+  Helmet1: {fileID: 4129639798448538421}
+  Helmet2: {fileID: 8399485316742665556}
+  Helmet3: {fileID: 4474699656067171111}
+  Helmet4: {fileID: 2678199534562902152}
 --- !u!114 &9010949427470988227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -928,7 +932,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2428396293906161767
 Transform:
   m_ObjectHideFlags: 0

@@ -6,18 +6,20 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
+    //Movement Variables
     public float turnSpeed = 180;
     public float tiltSpeed = 180;
     public float walkSpeed = 5;
     public float sprintSpeed = 10;
+
     public float gravity = 9.81f;
+
     public float jumpSpeed = 5;
     public float jumpBoostMultiplier = 1.2f;
 
-    public int weapon1Damage = 2;
-
-
     Vector3 moveDirection = Vector3.zero;
+
+    public int weapon1Damage = 2;
 
     CharacterController characterController;
     public enum team
@@ -55,14 +57,16 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     TextMesh playerNameDisplay;
 
-    //NetworkVariable<float> forward = new NetworkVariable<float>(0,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
-    //NetworkVariable<float> turn = new NetworkVariable<float>(0,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
+    //Network Variables
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
-
     public NetworkVariable<int> playerHealth = new NetworkVariable<int>(10, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<bool> playerIsDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    //Helmets
+    public GameObject Helmet1;
+    public GameObject Helmet2;
+    public GameObject Helmet3;
+    public GameObject Helmet4;
  
 
     private void Awake()
@@ -77,6 +81,12 @@ public class PlayerController : NetworkBehaviour
         Cursor.visible = true;
 
         if (IsOwner) playerName.Value = PlayerPrefs.GetString("PlayerName");
+
+        int helmetSelection = PlayerPrefs.GetInt("Helmet");
+        if (helmetSelection == 1) Helmet1.SetActive(true);
+        if (helmetSelection == 2) Helmet2.SetActive(true);
+        if (helmetSelection == 3) Helmet3.SetActive(true);
+        if (helmetSelection == 4) Helmet4.SetActive(true);
 
 
         characterController = GetComponent<CharacterController>();
@@ -122,7 +132,7 @@ public class PlayerController : NetworkBehaviour
                 HitScanServerRpc();
                 //fire animation
             }
-               
+            //Movement Input
             float forward = Input.GetAxisRaw("Vertical");
             float right = Input.GetAxisRaw("Horizontal");
             float turn =  Input.GetAxis("Mouse X");
@@ -132,9 +142,12 @@ public class PlayerController : NetworkBehaviour
             animator.SetFloat(animIDMotionX, right);
 
 
-
+            //camera rotation
             transform.Rotate(new Vector3(0, turn * turnSpeed * Time.deltaTime, 0));
             if (fpcam != null) fpcam.Rotate(new Vector3(-tilt * tiltSpeed * Time.deltaTime, 0));
+            //camera rotation lock doesnt work
+            //fpcam.transform.eulerAngles = new Vector3( Mathf.Clamp(fpcam.transform.rotation.x,0,180), fpcam.transform.eulerAngles.y);
+
 
 
             if (characterController.isGrounded)
