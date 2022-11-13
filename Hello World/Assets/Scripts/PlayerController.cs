@@ -29,6 +29,24 @@ public class PlayerController : NetworkBehaviour
 
     public team myTeam = team.Team1;
 
+    // Animator
+    private bool hasAnimator;
+    private Animator animator;
+
+    // Animation IDs
+    private int animIDMelee;
+    private int animIDShoot;
+    private int animIDJump;
+    private int animIDHit;
+    private int animIDDeath;
+    private int animIDLaser;
+    private int animIDWallSummon;
+    private int animIDMissilesCast;
+    private int animIDRunning;
+    private int animIDGrounded;
+    private int animIDSpeed;
+    private int animIDMotionX;
+    private int animIDMotionZ;
 
 
     [SerializeField]
@@ -64,17 +82,36 @@ public class PlayerController : NetworkBehaviour
 
 
         characterController = GetComponent<CharacterController>();
-        
-        
 
-            // SetNameServerRpc(playerName.Value.ToString());
-
-
-        }
+        // find and set animator IDs
+        hasAnimator = TryGetComponent(out animator);
+        AssignAnimationIDs();
 
 
+        // SetNameServerRpc(playerName.Value.ToString());
 
-     // Update is called once per frame
+
+    }
+
+    private void AssignAnimationIDs()
+    {
+        animIDMelee = Animator.StringToHash("Melee");
+        animIDShoot = Animator.StringToHash("Shooting");
+        animIDJump = Animator.StringToHash("Jump");
+        animIDHit = Animator.StringToHash("Hit");
+        animIDDeath = Animator.StringToHash("Death");
+        animIDLaser = Animator.StringToHash("Laser");
+        animIDWallSummon = Animator.StringToHash("WallSummon");
+        animIDMissilesCast = Animator.StringToHash("MissilesCast");
+        animIDRunning = Animator.StringToHash("Running");
+        animIDGrounded = Animator.StringToHash("Grounded");
+        animIDSpeed = Animator.StringToHash("Speed");
+        animIDMotionX = Animator.StringToHash("MotionX");
+        animIDMotionZ = Animator.StringToHash("MotionY");
+    }
+
+
+    // Update is called once per frame
     void Update()
     {
 
@@ -102,19 +139,35 @@ public class PlayerController : NetworkBehaviour
             { 
                 moveDirection = ((transform.TransformDirection(Vector3.forward)* forward) + (transform.TransformDirection(Vector3.right)*right)).normalized;
 
+                animator.SetFloat(animIDSpeed, 0);
+                animator.SetBool(animIDGrounded, true);
+
                 if (Input.GetKey(KeyCode.LeftShift) & forward > 0)
                 {
                     moveDirection *= sprintSpeed;
+
+                    animator.SetBool(animIDRunning, true);
+                    animator.SetFloat(animIDSpeed, sprintSpeed);
                 }
                 else
                 {
                     moveDirection *= walkSpeed;
+
+                    animator.SetBool(animIDRunning, false);
+                    animator.SetFloat(animIDSpeed, walkSpeed);
+
+                    animator.SetFloat(animIDMotionZ, forward);
+                    animator.SetFloat(animIDMotionX, right);
                 }
 
                 if (Input.GetButton("Jump"))
                 {
                     moveDirection *= jumpBoostMultiplier;
                     moveDirection.y = jumpSpeed;
+
+                    // Trigger Jump Param in Animation Controller
+                    animator.SetTrigger(animIDJump);
+                    animator.SetBool(animIDGrounded, false);
                 }
             }
         }
