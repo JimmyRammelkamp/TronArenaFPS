@@ -138,8 +138,8 @@ public class PlayerController : NetworkBehaviour
             float turn =  Input.GetAxis("Mouse X");
             float tilt = Input.GetAxis("Mouse Y");
 
-            animator.SetFloat(animIDMotionZ, forward);
-            animator.SetFloat(animIDMotionX, right);
+            animator.SetFloat(animIDMotionZ, forward, 1f, Time.deltaTime * 10f);
+            animator.SetFloat(animIDMotionX, right, 1f, Time.deltaTime * 10f);
 
 
             //camera rotation

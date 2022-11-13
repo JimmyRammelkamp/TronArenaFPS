@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c8270c6e788a4bf4c8c987dc454f8d2c
+guid: c68861df70cfc204ba918d924ea088c1
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable:
@@ -539,7 +539,7 @@ ModelImporter:
     second: upperarm_twist_01_r
   - first:
       74: 7400000
-    second: Gunslinger_Crouch_end
+    second: Gunslinger_8Way_Run_BR
   - first:
       95: 9500000
     second: //RootNode
@@ -555,27 +555,29 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
-    motionNodeName: 
+    motionNodeName: root
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'thigh_l'
-      : position error = 4.064935 mm\n\t'calf_l' : position error = 2.725845 mm\n\t'thigh_r'
-      : position error = 2.639557 mm\n\t'calf_r' : position error = 2.897147 mm\n\t'ball_r'
-      : position error = 1.008142 mm\n\t'hand_l' : position error = 2.478379 mm\n\t'hand_r'
-      : position error = 2.300457 mm\n\t'middle_02_r' : position error = 1.204115
-      mm\n\t'ring_02_r' : position error = 1.314759 mm\n"
+      : position error = 2.888338 mm\n\t'thigh_r' : position error = 4.029844 mm\n\t'calf_r'
+      : position error = 2.248191 mm\n\t'spine_01' : position error = 4.008898 mm\n\t'hand_l'
+      : position error = 1.019699 mm\n\t'upperarm_r' : position error = 1.328877
+      mm\n\t'lowerarm_r' : position error = 1.891346 mm\n\t'hand_r' : position error
+      = 7.868402 mm\n\t'middle_02_r' : position error = 1.204020 mm\n\t'ring_02_r'
+      : position error = 1.314838 mm\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar
       to improve retargeting quality.\n\t'thigh_l' has translation animation that
       will be discarded.\n\t'calf_l' has translation animation that will be discarded.\n\t'foot_l'
-      has translation animation that will be discarded.\n\t'thigh_r' has translation
-      animation that will be discarded.\n\t'calf_r' has translation animation that
-      will be discarded.\n\t'foot_r' has translation animation that will be discarded.\n\t'ball_r'
-      has translation animation that will be discarded.\n\t'upperarm_l' has translation
-      animation that will be discarded.\n\t'lowerarm_l' has translation animation
-      that will be discarded.\n\t'upperarm_r' has translation animation that will
-      be discarded.\n\t'lowerarm_r' has translation animation that will be discarded.\n"
+      has translation animation that will be discarded.\n\t'ball_l' has translation
+      animation that will be discarded.\n\t'thigh_r' has translation animation that
+      will be discarded.\n\t'calf_r' has translation animation that will be discarded.\n\t'foot_r'
+      has translation animation that will be discarded.\n\t'ball_r' has translation
+      animation that will be discarded.\n\t'spine_01' has translation animation that
+      will be discarded.\n\t'upperarm_l' has translation animation that will be discarded.\n\t'hand_l'
+      has translation animation that will be discarded.\n\t'upperarm_r' has translation
+      animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -589,25 +591,25 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Gunslinger_Crouch_end
+      name: Gunslinger_8Way_Run_BR
       takeName: Take 001
       internalID: 0
       firstFrame: 0
-      lastFrame: 30
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
-      loopBlendOrientation: 1
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
-      keepOriginalOrientation: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
       keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 1
+      keepOriginalPositionXZ: 0
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
