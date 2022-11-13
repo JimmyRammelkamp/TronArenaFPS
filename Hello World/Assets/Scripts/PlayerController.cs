@@ -13,11 +13,14 @@ public class PlayerController : NetworkBehaviour
     public float gravity = 9.81f;
     public float jumpSpeed = 5;
     public float jumpBoostMultiplier = 1.2f;
-    public bool Dead = false;
+
+    public int weapon1Damage = 2;
+
+
 
     Vector3 moveDirection = Vector3.zero;
 
-    public CharacterController characterController;
+    CharacterController characterController;
     public enum team
     {
         Team1,
@@ -41,7 +44,10 @@ public class PlayerController : NetworkBehaviour
 
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
 
-    public NetworkVariable<int> playerHealth = new NetworkVariable<int>(10, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> playerHealth = new NetworkVariable<int>(10, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<bool> playerIsDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+ 
 
     private void Awake()
     {
@@ -73,7 +79,7 @@ public class PlayerController : NetworkBehaviour
     {
 
         playerNameDisplay.text = playerName.Value.ToString() + myTeam;
-        if (IsOwner)
+        if (IsOwner & playerIsDead.Value == false)
         {
             if (Input.GetKeyDown(KeyCode.E)) WallSpawnServerRpc();
             if (Input.GetKeyDown(KeyCode.Mouse0)) HitScanServerRpc();
@@ -133,11 +139,18 @@ public class PlayerController : NetworkBehaviour
         characterController.Move(moveDirection * Time.deltaTime);
     }
 
+    
     public void Hit(int damage)
     {
         playerHealth.Value -= damage;
         Debug.Log(playerName.Value + " has been hit for " + damage + " damage" );
         Debug.Log(playerName.Value + " is at " + playerHealth.Value + " health" );
+        if (playerHealth.Value <= 0)
+        {
+            playerHealth.Value = 0;
+            playerIsDead.Value = true;
+            Debug.Log(playerName.Value + " is Dead");
+        }
     }
 
 
@@ -145,13 +158,6 @@ public class PlayerController : NetworkBehaviour
     void SetNameServerRpc(string name)
     {
         playerNameDisplay.text = name;
-    }
-
-    [ServerRpc]
-    void RelayInputServerRpc(float forward, float turn)
-    {
-        transform.Translate(new Vector3(0, 0, forward));
-        transform.Rotate(new Vector3(0, turn, 0));
     }
 
     [ServerRpc]
@@ -163,7 +169,7 @@ public class PlayerController : NetworkBehaviour
         {
             if (hit.collider.CompareTag("Player"))
             {
-                FindObjectOfType<HelloWorldManager>().DamagePlayerClientRpc(hit.collider.gameObject.GetComponent<PlayerController>(), 2);
+                FindObjectOfType<HelloWorldManager>().DamagePlayerClientRpc(hit.collider.gameObject.GetComponent<PlayerController>(), weapon1Damage);
                 Debug.DrawRay(fpcam.position, fpcam.forward * hit.distance, Color.yellow);
                 Debug.Log(playerName.Value + "Landed a Shot");
             }
