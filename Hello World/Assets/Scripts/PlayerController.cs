@@ -9,9 +9,11 @@ public class PlayerController : NetworkBehaviour
     public float turnSpeed = 180;
     public float tiltSpeed = 180;
     public float walkSpeed = 5;
+    public float sprintSpeed = 10;
     public float gravity = 9.81f;
     public float jumpSpeed = 5;
     public float jumpBoostMultiplier = 1.2f;
+    public bool Dead = false;
 
     Vector3 moveDirection = Vector3.zero;
 
@@ -85,7 +87,15 @@ public class PlayerController : NetworkBehaviour
             if (characterController.isGrounded)
             { 
                 moveDirection = ((transform.TransformDirection(Vector3.forward)* forward) + (transform.TransformDirection(Vector3.right)*right)).normalized;
-                moveDirection *= walkSpeed;
+
+                if (Input.GetKey(KeyCode.LeftShift) & forward > 0)
+                {
+                    moveDirection *= sprintSpeed;
+                }
+                else
+                {
+                    moveDirection *= walkSpeed;
+                }
 
                 if (Input.GetButton("Jump"))
                 {
