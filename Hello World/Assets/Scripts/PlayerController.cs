@@ -17,7 +17,6 @@ public class PlayerController : NetworkBehaviour
     public int weapon1Damage = 2;
 
 
-    Vector2 inputDirection = Vector2.zero;
     Vector3 moveDirection = Vector3.zero;
 
     CharacterController characterController;
@@ -26,7 +25,6 @@ public class PlayerController : NetworkBehaviour
         Team1,
         Team2
     }
-
     public team myTeam = team.Team1;
 
     // Animator
@@ -129,8 +127,12 @@ public class PlayerController : NetworkBehaviour
             float right = Input.GetAxisRaw("Horizontal");
             float turn =  Input.GetAxis("Mouse X");
             float tilt = Input.GetAxis("Mouse Y");
-            
-            
+
+            animator.SetFloat(animIDMotionZ, forward);
+            animator.SetFloat(animIDMotionX, right);
+
+
+
             transform.Rotate(new Vector3(0, turn * turnSpeed * Time.deltaTime, 0));
             if (fpcam != null) fpcam.Rotate(new Vector3(-tilt * tiltSpeed * Time.deltaTime, 0));
 
@@ -149,15 +151,14 @@ public class PlayerController : NetworkBehaviour
                     animator.SetBool(animIDRunning, true);
                     animator.SetFloat(animIDSpeed, sprintSpeed);
                 }
-                else
+                else if(new Vector2(right,forward).magnitude > 0)
                 {
                     moveDirection *= walkSpeed;
 
                     animator.SetBool(animIDRunning, false);
                     animator.SetFloat(animIDSpeed, walkSpeed);
 
-                    animator.SetFloat(animIDMotionZ, forward);
-                    animator.SetFloat(animIDMotionX, right);
+                    
                 }
 
                 if (Input.GetButton("Jump"))
