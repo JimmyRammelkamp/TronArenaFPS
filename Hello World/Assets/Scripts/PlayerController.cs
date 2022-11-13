@@ -105,7 +105,7 @@ public class PlayerController : NetworkBehaviour
         animIDGrounded = Animator.StringToHash("Grounded");
         animIDSpeed = Animator.StringToHash("Speed");
         animIDMotionX = Animator.StringToHash("MotionX");
-        animIDMotionZ = Animator.StringToHash("MotionY");
+        animIDMotionZ = Animator.StringToHash("MotionZ");
     }
 
 
