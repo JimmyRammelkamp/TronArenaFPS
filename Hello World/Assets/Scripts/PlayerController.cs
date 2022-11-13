@@ -143,6 +143,7 @@ public class PlayerController : NetworkBehaviour
 
                 animator.SetFloat(animIDSpeed, 0);
                 animator.SetBool(animIDGrounded, true);
+                animator.SetBool(animIDRunning, false);
 
                 if (Input.GetKey(KeyCode.LeftShift) & forward > 0)
                 {
