@@ -502,6 +502,9 @@ MonoBehaviour:
   turnSpeed: 270
   tiltSpeed: 270
   walkSpeed: 5
+  gravity: 9.81
+  jumpSpeed: 5
+  jumpBoostMultiplier: 1.2
   characterController: {fileID: 0}
   myTeam: 0
   fpcam: {fileID: 1543463219284506864}
