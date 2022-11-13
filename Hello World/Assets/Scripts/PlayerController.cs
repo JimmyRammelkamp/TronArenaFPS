@@ -17,7 +17,7 @@ public class PlayerController : NetworkBehaviour
     public int weapon1Damage = 2;
 
 
-
+    Vector2 inputDirection = Vector2.zero;
     Vector3 moveDirection = Vector3.zero;
 
     CharacterController characterController;
@@ -82,13 +82,21 @@ public class PlayerController : NetworkBehaviour
         if (IsOwner & playerIsDead.Value == false)
         {
             if (Input.GetKeyDown(KeyCode.E)) WallSpawnServerRpc();
-            if (Input.GetKeyDown(KeyCode.Mouse0)) HitScanServerRpc();
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                HitScanServerRpc();
+                //fire animation
+            }
+               
             float forward = Input.GetAxisRaw("Vertical");
-            float turn =  Input.GetAxis("Mouse X");
             float right = Input.GetAxisRaw("Horizontal");
-            //transform.Translate(new Vector3(right, 0, forward).normalized * walkSpeed * Time.deltaTime);
+            float turn =  Input.GetAxis("Mouse X");
+            float tilt = Input.GetAxis("Mouse Y");
+            
+            
             transform.Rotate(new Vector3(0, turn * turnSpeed * Time.deltaTime, 0));
-            //RelayInputServerRpc(forward *walkSpeed * Time.deltaTime, turn * turnSpeed * Time.deltaTime); //this needs time delta time
+            if (fpcam != null) fpcam.Rotate(new Vector3(-tilt * tiltSpeed * Time.deltaTime, 0));
+
 
             if (characterController.isGrounded)
             { 
@@ -109,11 +117,6 @@ public class PlayerController : NetworkBehaviour
                     moveDirection.y = jumpSpeed;
                 }
             }
-            else
-            {
-            
-            }
-
         }
         //if(IsServer)
         //{
@@ -122,9 +125,8 @@ public class PlayerController : NetworkBehaviour
         //}
 
 
-        float tilt = Input.GetAxis("Mouse Y");
-        if (fpcam != null)
-            fpcam.Rotate(new Vector3(-tilt * tiltSpeed * Time.deltaTime, 0));
+        
+        
         //if (Input.GetKeyDown(KeyCode.Space))
         //{
         //    //swap cameras
