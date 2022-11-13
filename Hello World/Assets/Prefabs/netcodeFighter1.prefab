@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 530614559183772395}
   - component: {fileID: 530614559183772392}
+  - component: {fileID: 7527392046195286211}
   m_Layer: 0
   m_Name: First Person Camera
   m_TagString: Untagged
@@ -56,7 +57,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.01
+  near clip plane: 0.28
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -64,7 +65,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2147483647
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -76,6 +77,32 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &7527392046195286211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530614559183772394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebd88f6457a3e234588c3730ff8b007f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  InLocalSpace: 1
+  Interpolate: 1
 --- !u!1 &530614559549839873
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,8 +521,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSpeed: 600
   tiltSpeed: 270
-  walkSpeed: 10
-  sprintSpeed: 20
+  walkSpeed: 7
+  sprintSpeed: 12
   gravity: 30
   jumpSpeed: 12
   jumpBoostMultiplier: 1.1
@@ -791,7 +818,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2428396293906161767}
   - component: {fileID: 1560785327748754241}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Quorra_Retopo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
