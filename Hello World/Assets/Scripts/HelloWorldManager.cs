@@ -111,7 +111,7 @@ public class HelloWorldManager : MonoBehaviour
     [ClientRpc]
     public void DamagePlayerClientRpc(PlayerController player, int damage)
     {
-        // player.Hit(damage);
+        player.Hit();
         player.playerHealth.Value -= damage;
         Debug.Log(player.playerName.Value + " has been hit for " + damage + " damage");
         Debug.Log(player.playerName.Value + " is at " + player.playerHealth.Value + " health");
