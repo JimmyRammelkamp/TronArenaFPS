@@ -588,7 +588,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8988204872553817813, guid: 5f1ca00df9cdcb4449f65ead5e56a9f8, type: 3}
+  - {fileID: 2100000, guid: 36de4f6216e64134899440f1307ef9f1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -983,8 +983,10 @@ MonoBehaviour:
   gravity: 30
   jumpSpeed: 12
   jumpBoostMultiplier: 1.1
+  maxHealth: 10
   weapon1Damage: 2
   myTeam: 0
+  playerNumber: 0
   fpcam: {fileID: 530614559183772395}
   prefab: {fileID: 400914745412888035, guid: c9ad38acd71471540a7e59c2994a0efa, type: 3}
   playerNameDisplay: {fileID: 530614559549840127}
