@@ -19,15 +19,20 @@ public class PlayerController : NetworkBehaviour
 
     Vector3 moveDirection = Vector3.zero;
 
+    public int maxHealth = 10;
     public int weapon1Damage = 2;
 
     CharacterController characterController;
+
+    //Team Assignment
     public enum team
     {
         Team1,
-        Team2
+        Team2,
+        NoTeam
     }
     public team myTeam = team.Team1;
+    public int playerNumber;
 
     // Animator
     private bool hasAnimator;
@@ -82,6 +87,7 @@ public class PlayerController : NetworkBehaviour
 
         if (IsOwner) playerName.Value = PlayerPrefs.GetString("PlayerName");
 
+        //Helmet Assignment
         int helmetSelection = PlayerPrefs.GetInt("Helmet");
         if (helmetSelection == 1) Helmet1.SetActive(true);
         if (helmetSelection == 2) Helmet2.SetActive(true);
@@ -185,42 +191,67 @@ public class PlayerController : NetworkBehaviour
                     animator.SetBool(animIDGrounded, false);
                 }
             }
+            else
+            {
+
+            }
         }
-        //if(IsServer)
-        //{
-        //    transform.Translate(new Vector3(0, 0, forward.Value * walkSpeed * Time.deltaTime)); //this is for network variable isntead of rpc
-        //    transform.Rotate(new Vector3(0, turn.Value * turnSpeed * Time.deltaTime, 0));
-        //}
+        moveDirection.y -= gravity * Time.deltaTime;
+        characterController.Move(moveDirection * Time.deltaTime);
 
 
-        
-        
+
+
+        if(playerIsDead.Value == true)
+        {
+            //play death animation
+            animator.SetTrigger(animIDDeath);
+            Invoke("Spawn", 3);
+        }
+
+
+
         //if (Input.GetKeyDown(KeyCode.Space))
         //{
         //    //swap cameras
         //    topcam.enabled = !topcam.enabled;
         //    fpcam.GetComponent<Camera>().enabled = !fpcam.GetComponent<Camera>().enabled;
         //}
-      //  https://addam-davis1989.medium.com/jumping-with-physics-based-character-controller-in-unity-45462a04e62
-        
+        //  https://addam-davis1989.medium.com/jumping-with-physics-based-character-controller-in-unity-45462a04e62
 
 
-        moveDirection.y -= gravity * Time.deltaTime;
-        characterController.Move(moveDirection * Time.deltaTime);
+
+
+    }
+
+    public void Spawn()
+    {
+        playerIsDead.Value = false;
+        playerHealth.Value = maxHealth;
+        if (myTeam == team.Team1) //Spawn on Team1 spawn point
+        {
+            GameObject[] spawnPos = GameObject.FindGameObjectsWithTag("Team1Spawn");
+            transform.position = spawnPos[playerNumber].transform.position;
+        }
+        if (myTeam == team.Team2) //Spawn on Team2 spawn point
+        {
+            GameObject[] spawnPos = GameObject.FindGameObjectsWithTag("Team2Spawn");
+            transform.position = spawnPos[playerNumber].transform.position;
+        }
+        if (myTeam == team.NoTeam) //Spawn Randomly on map
+        {
+            transform.position = new Vector3(Random.Range(-20f, 20f), 1f, Random.Range(-20f, 20f));
+        }
     }
 
     
-    public void Hit(int damage)
+    public void Hit()
     {
-        playerHealth.Value -= damage;
-        Debug.Log(playerName.Value + " has been hit for " + damage + " damage" );
-        Debug.Log(playerName.Value + " is at " + playerHealth.Value + " health" );
-        if (playerHealth.Value <= 0)
-        {
-            playerHealth.Value = 0;
-            playerIsDead.Value = true;
-            Debug.Log(playerName.Value + " is Dead");
-        }
+ 
+
+        animator.SetTrigger(animIDHit);
+
+      
     }
 
 
@@ -256,16 +287,17 @@ public class PlayerController : NetworkBehaviour
     void WallSpawnServerRpc()
     {
         var obj = Instantiate(prefab);
-        obj.position = transform.position + 4 * transform.forward;
+        obj.position = transform.position + 4 * transform.forward + 1 * transform.up;
+        obj.rotation = transform.rotation;
         obj.GetComponent<NetworkObject>().Spawn(true);
     }
 
     public override void OnNetworkSpawn()
     {
-        
+
         if (IsOwner)
         {
-            transform.position = new Vector3(Random.Range(-20f, 20f), 1f, Random.Range(-20f, 20f));
+            Spawn();
         }
 
         if (IsOwner && fpcam != null)
