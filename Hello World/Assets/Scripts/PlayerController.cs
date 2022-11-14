@@ -21,17 +21,11 @@ public class PlayerController : NetworkBehaviour
 
     public int maxHealth = 10;
     public int weapon1Damage = 2;
+    public float weapon1ShotDelay = .5f;
 
     CharacterController characterController;
 
-    //Team Assignment
-    public enum team
-    {
-        Team1,
-        Team2,
-        NoTeam
-    }
-    public team myTeam = team.Team1;
+    
     public int playerNumber;
 
     // Animator
@@ -64,8 +58,10 @@ public class PlayerController : NetworkBehaviour
 
     //Network Variables
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> helmetSelection = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
     public NetworkVariable<int> playerHealth = new NetworkVariable<int>(10, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<bool> playerIsDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> team = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     //Helmets
     public GameObject Helmet1;
@@ -88,11 +84,8 @@ public class PlayerController : NetworkBehaviour
         if (IsOwner) playerName.Value = PlayerPrefs.GetString("PlayerName");
 
         //Helmet Assignment
-        int helmetSelection = PlayerPrefs.GetInt("Helmet");
-        if (helmetSelection == 1) Helmet1.SetActive(true);
-        if (helmetSelection == 2) Helmet2.SetActive(true);
-        if (helmetSelection == 3) Helmet3.SetActive(true);
-        if (helmetSelection == 4) Helmet4.SetActive(true);
+        if (IsOwner) helmetSelection.Value = PlayerPrefs.GetInt("Helmet");
+        
 
 
         characterController = GetComponent<CharacterController>();
@@ -129,15 +122,18 @@ public class PlayerController : NetworkBehaviour
     void Update()
     {
 
-        playerNameDisplay.text = playerName.Value.ToString() + myTeam;
+        playerNameDisplay.text = playerName.Value.ToString() + ": Team " + team.Value;
+        if (helmetSelection.Value == 1) Helmet1.SetActive(true); else Helmet1.SetActive(false);
+        if (helmetSelection.Value == 2) Helmet2.SetActive(true); else Helmet2.SetActive(false);
+        if (helmetSelection.Value == 3) Helmet3.SetActive(true); else Helmet3.SetActive(false);
+        if (helmetSelection.Value == 4) Helmet4.SetActive(true); else Helmet4.SetActive(false);
+
+
         if (IsOwner & playerIsDead.Value == false)
         {
             if (Input.GetKeyDown(KeyCode.E)) WallSpawnServerRpc();
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                HitScanServerRpc();
-                //fire animation
-            }
+            if (Input.GetKeyDown(KeyCode.Mouse0)) Shoot();
+           
             //Movement Input
             float forward = Input.GetAxisRaw("Vertical");
             float right = Input.GetAxisRaw("Horizontal");
@@ -220,7 +216,29 @@ public class PlayerController : NetworkBehaviour
         //  https://addam-davis1989.medium.com/jumping-with-physics-based-character-controller-in-unity-45462a04e62
 
 
+       if(IsOwner) DebugInputs();
 
+    }
+
+    public void DebugInputs()
+    {
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            if(team.Value != 1)
+            {
+                team.Value = 1;
+
+            }
+            else if(team.Value != 2)
+            {
+                team.Value = 2;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) helmetSelection.Value = 1;
+        if (Input.GetKeyDown(KeyCode.Alpha2)) helmetSelection.Value = 2;
+        if (Input.GetKeyDown(KeyCode.Alpha3)) helmetSelection.Value = 3;
+        if (Input.GetKeyDown(KeyCode.Alpha4)) helmetSelection.Value = 4;
 
     }
 
@@ -228,17 +246,17 @@ public class PlayerController : NetworkBehaviour
     {
         playerIsDead.Value = false;
         playerHealth.Value = maxHealth;
-        if (myTeam == team.Team1) //Spawn on Team1 spawn point
+        if (team.Value == 1) //Spawn on Team1 spawn point
         {
             GameObject[] spawnPos = GameObject.FindGameObjectsWithTag("Team1Spawn");
             transform.position = spawnPos[playerNumber].transform.position;
         }
-        if (myTeam == team.Team2) //Spawn on Team2 spawn point
+        else if (team.Value == 2) //Spawn on Team2 spawn point
         {
             GameObject[] spawnPos = GameObject.FindGameObjectsWithTag("Team2Spawn");
             transform.position = spawnPos[playerNumber].transform.position;
         }
-        if (myTeam == team.NoTeam) //Spawn Randomly on map
+        else //Spawn Randomly on map
         {
             transform.position = new Vector3(Random.Range(-20f, 20f), 1f, Random.Range(-20f, 20f));
         }
@@ -247,13 +265,15 @@ public class PlayerController : NetworkBehaviour
     
     public void Hit()
     {
- 
-
         animator.SetTrigger(animIDHit);
-
-      
     }
 
+    public void Shoot()
+    {
+        //invoke charging animation
+        Debug.Log("Weapon Charging");
+        Invoke("HitScanServerRpc", weapon1ShotDelay);
+    }
 
     [ServerRpc]
     void SetNameServerRpc(string name)
@@ -264,17 +284,19 @@ public class PlayerController : NetworkBehaviour
     [ServerRpc]
     void HitScanServerRpc()
     {
+       
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(fpcam.position, fpcam.forward, out hit, Mathf.Infinity))
         {
-            if (hit.collider.CompareTag("Player"))
+            if (hit.collider.CompareTag("Player") & hit.collider.GetComponent<PlayerController>().team.Value != team.Value )
             {
                 FindObjectOfType<HelloWorldManager>().DamagePlayerClientRpc(hit.collider.gameObject.GetComponent<PlayerController>(), weapon1Damage);
                 Debug.DrawRay(fpcam.position, fpcam.forward * hit.distance, Color.yellow);
                 Debug.Log(playerName.Value + "Landed a Shot");
             }
             
+
         }
         else
         {
@@ -287,8 +309,9 @@ public class PlayerController : NetworkBehaviour
     void WallSpawnServerRpc()
     {
         var obj = Instantiate(prefab);
-        obj.position = transform.position + 4 * transform.forward + 1 * transform.up;
+        obj.position = transform.position + 4 * transform.forward + -0.1f * transform.up;
         obj.rotation = transform.rotation;
+        obj.Rotate(-90, 0, 0);
         obj.GetComponent<NetworkObject>().Spawn(true);
     }
 
