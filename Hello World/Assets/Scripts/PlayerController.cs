@@ -80,6 +80,8 @@ public class PlayerController : NetworkBehaviour
 
     //Railgun
     public GameObject Railgun;
+
+    //
  
 
     private void Awake()
@@ -106,6 +108,7 @@ public class PlayerController : NetworkBehaviour
         hasRailgunAnimator = Railgun.TryGetComponent(out railgunAnimator);
 
         AssignAnimationIDs();
+
 
 
         // SetNameServerRpc(playerName.Value.ToString());
