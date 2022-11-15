@@ -12,29 +12,38 @@ public class PlayerController : NetworkBehaviour
     public float walkSpeed = 5;
     public float sprintSpeed = 10;
 
+    // Default gravity value
     public float gravity = 9.81f;
 
+    // jumpSpeed = upwards force / jumpBoostMultiplier = movement direction force
     public float jumpSpeed = 5;
     public float jumpBoostMultiplier = 1.2f;
 
+    // Player movement direction holder
     Vector3 moveDirection = Vector3.zero;
 
+    // Player attribute variables
     public int maxHealth = 10;
     public int weapon1Damage = 2;
     public float weapon1ShotDelay = .5f;
 
+    // Unity Character controller
     CharacterController characterController;
 
-    
+    // Player number for spawnpoint allocation
     public int playerNumber;
 
     // Animator
     private bool hasAnimator;
     private Animator animator;
 
+    // Railgun Animator
+    private bool hasRailgunAnimator;
+    private Animator railgunAnimator;
+
     // Animation IDs
     private int animIDMelee;
-    private int animIDShoot;
+    private int animIDRailgunShoot;
     private int animIDJump;
     private int animIDHit;
     private int animIDDeath;
@@ -51,7 +60,8 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private Transform fpcam;
     private Camera topcam;
-    [SerializeField] private Transform prefab;
+    [SerializeField] 
+    private Transform prefab;
 
     [SerializeField]
     TextMesh playerNameDisplay;
@@ -68,6 +78,9 @@ public class PlayerController : NetworkBehaviour
     public GameObject Helmet2;
     public GameObject Helmet3;
     public GameObject Helmet4;
+
+    //Railgun
+    public GameObject Railgun;
  
 
     private void Awake()
@@ -86,24 +99,22 @@ public class PlayerController : NetworkBehaviour
         //Helmet Assignment
         if (IsOwner) helmetSelection.Value = PlayerPrefs.GetInt("Helmet");
         
-
-
+        // find character controller
         characterController = GetComponent<CharacterController>();
 
         // find and set animator IDs
         hasAnimator = TryGetComponent(out animator);
+        hasRailgunAnimator = Railgun.TryGetComponent(out animator);
         AssignAnimationIDs();
 
 
         // SetNameServerRpc(playerName.Value.ToString());
-
-
     }
 
     private void AssignAnimationIDs()
     {
         animIDMelee = Animator.StringToHash("Melee");
-        animIDShoot = Animator.StringToHash("Shooting");
+        animIDRailgunShoot = Animator.StringToHash("Shoot");
         animIDJump = Animator.StringToHash("Jump");
         animIDHit = Animator.StringToHash("Hit");
         animIDDeath = Animator.StringToHash("Death");
@@ -128,7 +139,6 @@ public class PlayerController : NetworkBehaviour
         if (helmetSelection.Value == 3) Helmet3.SetActive(true); else Helmet3.SetActive(false);
         if (helmetSelection.Value == 4) Helmet4.SetActive(true); else Helmet4.SetActive(false);
 
-
         if (IsOwner & playerIsDead.Value == false)
         {
             if (Input.GetKeyDown(KeyCode.E)) WallSpawnServerRpc();
@@ -140,9 +150,9 @@ public class PlayerController : NetworkBehaviour
             float turn =  Input.GetAxis("Mouse X");
             float tilt = Input.GetAxis("Mouse Y");
 
+            // Pass Movement directions for strafe blendtree
             animator.SetFloat(animIDMotionZ, forward, 1f, Time.deltaTime * 10f);
             animator.SetFloat(animIDMotionX, right, 1f, Time.deltaTime * 10f);
-
 
             //camera rotation
             transform.Rotate(new Vector3(0, turn * turnSpeed * Time.deltaTime, 0));
@@ -151,11 +161,12 @@ public class PlayerController : NetworkBehaviour
             //fpcam.transform.eulerAngles = new Vector3( Mathf.Clamp(fpcam.transform.rotation.x,0,180), fpcam.transform.eulerAngles.y);
 
 
-
+            // Move player when grounded
             if (characterController.isGrounded)
             { 
                 moveDirection = ((transform.TransformDirection(Vector3.forward)* forward) + (transform.TransformDirection(Vector3.right)*right)).normalized;
 
+                // Initialise player animator parameters
                 animator.SetFloat(animIDSpeed, 0);
                 animator.SetBool(animIDGrounded, true);
                 animator.SetBool(animIDRunning, false);
@@ -164,6 +175,7 @@ public class PlayerController : NetworkBehaviour
                 {
                     moveDirection *= sprintSpeed;
 
+                    // Animate sprint
                     animator.SetBool(animIDRunning, true);
                     animator.SetFloat(animIDSpeed, sprintSpeed);
                 }
@@ -171,10 +183,9 @@ public class PlayerController : NetworkBehaviour
                 {
                     moveDirection *= walkSpeed;
 
+                    // Animate Strafe
                     animator.SetBool(animIDRunning, false);
                     animator.SetFloat(animIDSpeed, walkSpeed);
-
-                    
                 }
 
                 if (Input.GetButton("Jump"))
@@ -182,7 +193,7 @@ public class PlayerController : NetworkBehaviour
                     moveDirection *= jumpBoostMultiplier;
                     moveDirection.y = jumpSpeed;
 
-                    // Trigger Jump Param in Animation Controller
+                    // Trigger Jump parameter in Animation Controller
                     animator.SetTrigger(animIDJump);
                     animator.SetBool(animIDGrounded, false);
                 }
@@ -192,7 +203,11 @@ public class PlayerController : NetworkBehaviour
 
             }
         }
+
+        // Apply gravity
         moveDirection.y -= gravity * Time.deltaTime;
+
+        // Apply player movement
         characterController.Move(moveDirection * Time.deltaTime);
 
 
@@ -220,8 +235,10 @@ public class PlayerController : NetworkBehaviour
 
     }
 
+    // Debug keys for testing - !REMEMBER TO REMOVE!
     public void DebugInputs()
     {
+        // Team assign
         if(Input.GetKeyDown(KeyCode.T))
         {
             if(team.Value != 1)
@@ -235,6 +252,7 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
+        // Helmet assign
         if (Input.GetKeyDown(KeyCode.Alpha1)) helmetSelection.Value = 1;
         if (Input.GetKeyDown(KeyCode.Alpha2)) helmetSelection.Value = 2;
         if (Input.GetKeyDown(KeyCode.Alpha3)) helmetSelection.Value = 3;
@@ -265,12 +283,14 @@ public class PlayerController : NetworkBehaviour
     
     public void Hit()
     {
+        // Trigger take damage animation
         animator.SetTrigger(animIDHit);
     }
 
     public void Shoot()
     {
-        //invoke charging animation
+        // Execute charging animation
+        railgunAnimator.SetTrigger(animIDRailgunShoot);
         Debug.Log("Weapon Charging");
         Invoke("HitScanServerRpc", weapon1ShotDelay);
     }
@@ -278,6 +298,7 @@ public class PlayerController : NetworkBehaviour
     [ServerRpc]
     void SetNameServerRpc(string name)
     {
+        // Set Player name
         playerNameDisplay.text = name;
     }
 
@@ -295,7 +316,6 @@ public class PlayerController : NetworkBehaviour
                 Debug.DrawRay(fpcam.position, fpcam.forward * hit.distance, Color.yellow);
                 Debug.Log(playerName.Value + "Landed a Shot");
             }
-            
 
         }
         else
@@ -305,6 +325,7 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    // Wall Spawning RPC, creates terrain wall object
     [ServerRpc]
     void WallSpawnServerRpc()
     {
