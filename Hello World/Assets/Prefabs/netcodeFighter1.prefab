@@ -594,8 +594,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1430436859080269439}
-  - component: {fileID: 2627345895126323674}
-  - component: {fileID: 257481855799207184}
+  - component: {fileID: 6756395782723284091}
+  - component: {fileID: 176192438202940894}
+  - component: {fileID: 2742227638673778965}
   m_Layer: 0
   m_Name: netcodeRailgun1
   m_TagString: Untagged
@@ -621,16 +622,8 @@ Transform:
   m_Father: {fileID: 5732320947728218529}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!33 &2627345895126323674
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1770545850568312005}
-  m_Mesh: {fileID: 4467472678428739477, guid: 5f1ca00df9cdcb4449f65ead5e56a9f8, type: 3}
---- !u!23 &257481855799207184
-MeshRenderer:
+--- !u!137 &6756395782723284091
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -644,7 +637,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
+  m_RayTracingMode: 3
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
@@ -670,7 +663,51 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
+  m_Mesh: {fileID: 4730151239295006331, guid: 5f1ca00df9cdcb4449f65ead5e56a9f8, type: 3}
+  m_Bones: []
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 0}
+  m_AABB:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_DirtyAABB: 0
+--- !u!95 &176192438202940894
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770545850568312005}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 68cafbbe7c446774594ee71200f60f78, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2742227638673778965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770545850568312005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8544071b251333e40b085a0316f9e954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 176192438202940894}
 --- !u!1 &1856268499611622332
 GameObject:
   m_ObjectHideFlags: 0
@@ -1200,6 +1237,7 @@ MonoBehaviour:
   Helmet2: {fileID: 8399485316742665556}
   Helmet3: {fileID: 4474699656067171111}
   Helmet4: {fileID: 2678199534562902152}
+  Railgun: {fileID: 1770545850568312005}
 --- !u!114 &9010949427470988227
 MonoBehaviour:
   m_ObjectHideFlags: 0

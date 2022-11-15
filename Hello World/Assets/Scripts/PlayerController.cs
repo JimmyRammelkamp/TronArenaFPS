@@ -37,13 +37,8 @@ public class PlayerController : NetworkBehaviour
     private bool hasAnimator;
     private Animator animator;
 
-    // Railgun Animator
-    private bool hasRailgunAnimator;
-    private Animator railgunAnimator;
-
     // Animation IDs
     private int animIDMelee;
-    private int animIDRailgunShoot;
     private int animIDJump;
     private int animIDHit;
     private int animIDDeath;
@@ -104,7 +99,7 @@ public class PlayerController : NetworkBehaviour
 
         // find and set animator IDs
         hasAnimator = TryGetComponent(out animator);
-        hasRailgunAnimator = Railgun.TryGetComponent(out animator);
+
         AssignAnimationIDs();
 
 
@@ -114,7 +109,6 @@ public class PlayerController : NetworkBehaviour
     private void AssignAnimationIDs()
     {
         animIDMelee = Animator.StringToHash("Melee");
-        animIDRailgunShoot = Animator.StringToHash("Shoot");
         animIDJump = Animator.StringToHash("Jump");
         animIDHit = Animator.StringToHash("Hit");
         animIDDeath = Animator.StringToHash("Death");
@@ -290,7 +284,7 @@ public class PlayerController : NetworkBehaviour
     public void Shoot()
     {
         // Execute charging animation
-        railgunAnimator.SetTrigger(animIDRailgunShoot);
+        
         Debug.Log("Weapon Charging");
         Invoke("HitScanServerRpc", weapon1ShotDelay);
     }
