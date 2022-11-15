@@ -35,9 +35,11 @@ public class PlayerController : NetworkBehaviour
 
     // Animator
     private bool hasAnimator;
+    private bool hasRailgunAnimator;
     private Animator animator;
+    private Animator railgunAnimator;
 
-    // Animation IDs
+    // Player Animation IDs
     private int animIDMelee;
     private int animIDJump;
     private int animIDHit;
@@ -50,6 +52,8 @@ public class PlayerController : NetworkBehaviour
     private int animIDSpeed;
     private int animIDMotionX;
     private int animIDMotionZ;
+    // Railgun Animation IDs
+    private int animIDShoot;
 
 
     [SerializeField]
@@ -99,6 +103,7 @@ public class PlayerController : NetworkBehaviour
 
         // find and set animator IDs
         hasAnimator = TryGetComponent(out animator);
+        hasRailgunAnimator = Railgun.TryGetComponent(out railgunAnimator);
 
         AssignAnimationIDs();
 
@@ -108,6 +113,7 @@ public class PlayerController : NetworkBehaviour
 
     private void AssignAnimationIDs()
     {
+        //PlayerAnimationIDs
         animIDMelee = Animator.StringToHash("Melee");
         animIDJump = Animator.StringToHash("Jump");
         animIDHit = Animator.StringToHash("Hit");
@@ -120,6 +126,9 @@ public class PlayerController : NetworkBehaviour
         animIDSpeed = Animator.StringToHash("Speed");
         animIDMotionX = Animator.StringToHash("MotionX");
         animIDMotionZ = Animator.StringToHash("MotionZ");
+
+        //RailGunAnimationIDs
+        animIDShoot = Animator.StringToHash("Shoot");
     }
 
 
@@ -284,6 +293,7 @@ public class PlayerController : NetworkBehaviour
     public void Shoot()
     {
         // Execute charging animation
+        railgunAnimator.SetBool(animIDShoot, true);
         
         Debug.Log("Weapon Charging");
         Invoke("HitScanServerRpc", weapon1ShotDelay);
