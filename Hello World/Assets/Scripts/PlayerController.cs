@@ -25,7 +25,7 @@ public class PlayerController : NetworkBehaviour
     // Player attribute variables
     public int maxHealth = 10;
     public int weapon1Damage = 2;
-    public float weapon1ShotDelay = .5f;
+    public float weapon1ShotDelay = .7f;
 
     // Unity Character controller
     CharacterController characterController;
@@ -59,8 +59,16 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private Transform fpcam;
     private Camera topcam;
+
+    // Network Object prefabs
     [SerializeField] 
-    private Transform prefab;
+    private Transform risingWall;
+
+    [SerializeField]
+    private Transform laserBeam;
+
+    [SerializeField]
+    private Transform blastPrefab;
 
     [SerializeField]
     TextMesh playerNameDisplay;
@@ -312,12 +320,23 @@ public class PlayerController : NetworkBehaviour
     [ServerRpc]
     void HitScanServerRpc()
     {
-       
+        // Instantiate Laser Beam
+        var laserObj = Instantiate(laserBeam);
+        laserObj.position = Railgun.transform.position - Railgun.transform.up;
+        laserObj.rotation = Railgun.transform.rotation;
+        laserObj.Rotate(90, 0, 90);
+        laserObj.GetComponent<NetworkObject>().Spawn(true);
+
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(fpcam.position, fpcam.forward, out hit, Mathf.Infinity))
         {
-            if (hit.collider.CompareTag("Player") & hit.collider.GetComponent<PlayerController>().team.Value != team.Value )
+            // Instantiate Blast Particle
+            var blastObj = Instantiate(blastPrefab);
+            blastObj.position = hit.point + Railgun.transform.up;
+            blastObj.GetComponent<NetworkObject>().Spawn(true);
+
+            if (hit.collider.CompareTag("Player") && hit.collider.GetComponent<PlayerController>().team.Value != team.Value )
             {
                 FindObjectOfType<HelloWorldManager>().DamagePlayerClientRpc(hit.collider.gameObject.GetComponent<PlayerController>(), weapon1Damage);
                 Debug.DrawRay(fpcam.position, fpcam.forward * hit.distance, Color.yellow);
@@ -336,7 +355,7 @@ public class PlayerController : NetworkBehaviour
     [ServerRpc]
     void WallSpawnServerRpc()
     {
-        var obj = Instantiate(prefab);
+        var obj = Instantiate(risingWall);
         obj.position = transform.position + 4 * transform.forward + -0.1f * transform.up;
         obj.rotation = transform.rotation;
         obj.Rotate(-90, 0, 0);

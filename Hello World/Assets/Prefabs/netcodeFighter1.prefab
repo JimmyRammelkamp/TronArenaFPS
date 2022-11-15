@@ -721,7 +721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2fee92a82887b498209958bdcb8078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team1Color: {r: 0, g: 0, b: 2.270603, a: 1}
+  team1Color: {r: 0.9866457, g: 0.9866457, b: 3.031433, a: 1}
   team2Color: {r: 2.270603, g: 0, b: 0, a: 1}
   defaultColor: {r: 2.270603, g: 2.270603, b: 2.270603, a: 1}
 --- !u!1 &1856268499611622332
@@ -1098,11 +1098,13 @@ MonoBehaviour:
   jumpSpeed: 12
   jumpBoostMultiplier: 1.1
   maxHealth: 10
-  weapon1Damage: 2
-  weapon1ShotDelay: 0.5
+  weapon1Damage: 10
+  weapon1ShotDelay: 0.7
   playerNumber: 0
   fpcam: {fileID: 530614559183772395}
-  prefab: {fileID: 400914745412888035, guid: c9ad38acd71471540a7e59c2994a0efa, type: 3}
+  risingWall: {fileID: 400914745412888035, guid: c9ad38acd71471540a7e59c2994a0efa, type: 3}
+  laserBeam: {fileID: 7317616663401847146, guid: 3c5f5711274e9cd47a584c1017979e04, type: 3}
+  blastPrefab: {fileID: 4050527243856104, guid: b666d467239ed584d8cae8de0861542c, type: 3}
   playerNameDisplay: {fileID: 530614559549840127}
   playerName:
     m_InternalValue:
@@ -2702,7 +2704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2fee92a82887b498209958bdcb8078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team1Color: {r: 0, g: 0, b: 1, a: 1}
+  team1Color: {r: 0.2971698, g: 0.2971698, b: 1, a: 1}
   team2Color: {r: 1, g: 0, b: 0, a: 1}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &7882371528977764666
