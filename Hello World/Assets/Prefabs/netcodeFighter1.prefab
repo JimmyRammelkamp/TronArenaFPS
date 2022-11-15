@@ -597,7 +597,6 @@ GameObject:
   - component: {fileID: 6756395782723284091}
   - component: {fileID: 176192438202940894}
   - component: {fileID: 2742227638673778965}
-  - component: {fileID: 6287306127912365159}
   m_Layer: 0
   m_Name: netcodeRailgun1
   m_TagString: Untagged
@@ -709,21 +708,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 176192438202940894}
---- !u!114 &6287306127912365159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1770545850568312005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad2fee92a82887b498209958bdcb8078, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team1Color: {r: 0, g: 0, b: 2.270603, a: 1}
-  team2Color: {r: 2.270603, g: 0, b: 0, a: 1}
-  defaultColor: {r: 2.270603, g: 2.270603, b: 2.270603, a: 1}
 --- !u!1 &1856268499611622332
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,6 +1009,7 @@ GameObject:
   - component: {fileID: 3375334081620928042}
   - component: {fileID: 252859707}
   - component: {fileID: 252859706}
+  - component: {fileID: 3595815509763308580}
   m_Layer: 0
   m_Name: netcodeFighter1
   m_TagString: Player
@@ -1414,6 +1399,27 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
+--- !u!114 &3595815509763308580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2352759974580941570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad2fee92a82887b498209958bdcb8078, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyRenderer: {fileID: 3689706675013733660}
+  railgunRenderer: {fileID: 6756395782723284091}
+  helmet1Renderer: {fileID: 6420262132320242095}
+  helmet2Renderer: {fileID: 7751082418700117037}
+  helmet3Renderer: {fileID: 3293329831650248327}
+  helmet4Renderer: {fileID: 1560785327748754241}
+  team1Color: {r: 0, g: 0, b: 3.031433, a: 1}
+  team2Color: {r: 3.031433, g: 0, b: 0, a: 1}
+  defaultColor: {r: 3.031433, g: 3.031433, b: 3.031433, a: 1}
 --- !u!1 &2368463107387329782
 GameObject:
   m_ObjectHideFlags: 0
@@ -1487,7 +1493,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2428396293906161767}
   - component: {fileID: 1560785327748754241}
-  - component: {fileID: 5269411905158375539}
   m_Layer: 1
   m_Name: Quorra_Retopo
   m_TagString: Untagged
@@ -1584,21 +1589,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.005791313, z: -0.00057559763}
     m_Extent: {x: 0.0010785912, y: 0.0015121186, z: 0.0013348218}
   m_DirtyAABB: 0
---- !u!114 &5269411905158375539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2678199534562902152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad2fee92a82887b498209958bdcb8078, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team1Color: {r: 0, g: 0, b: 1, a: 1}
-  team2Color: {r: 1, g: 0, b: 0, a: 1}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2765147374493211862
 GameObject:
   m_ObjectHideFlags: 0
@@ -1910,7 +1900,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8483402299093584950}
   - component: {fileID: 6420262132320242095}
-  - component: {fileID: 7678373796059882737}
   m_Layer: 0
   m_Name: Clu_Retopo
   m_TagString: Untagged
@@ -2007,21 +1996,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.005799764, z: -0.00061939773}
     m_Extent: {x: 0.0011548685, y: 0.0015067747, z: 0.0013703348}
   m_DirtyAABB: 0
---- !u!114 &7678373796059882737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4129639798448538421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad2fee92a82887b498209958bdcb8078, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team1Color: {r: 0, g: 0, b: 1, a: 1}
-  team2Color: {r: 1, g: 0, b: 0, a: 1}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &4245154635534201719
 GameObject:
   m_ObjectHideFlags: 0
@@ -2064,7 +2038,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8490757632494686117}
   - component: {fileID: 3293329831650248327}
-  - component: {fileID: 1271728667847360216}
   m_Layer: 0
   m_Name: Daft2_Retopo
   m_TagString: Untagged
@@ -2161,21 +2134,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.005791548, z: -0.0006449411}
     m_Extent: {x: 0.0011793419, y: 0.0015433249, z: 0.001477242}
   m_DirtyAABB: 0
---- !u!114 &1271728667847360216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4474699656067171111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad2fee92a82887b498209958bdcb8078, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team1Color: {r: 0, g: 0, b: 1, a: 1}
-  team2Color: {r: 1, g: 0, b: 0, a: 1}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &4515260755290020200
 GameObject:
   m_ObjectHideFlags: 0
@@ -2593,7 +2551,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8641244455892500922}
   - component: {fileID: 3689706675013733660}
-  - component: {fileID: 1526170981036146230}
   m_Layer: 0
   m_Name: Character1
   m_TagString: Untagged
@@ -2690,21 +2647,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 5.820766e-10, y: -0.0015664375, z: 0.00009617768}
     m_Extent: {x: 0.002831425, y: 0.00859122, z: 0.002429546}
   m_DirtyAABB: 0
---- !u!114 &1526170981036146230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7438591483384137625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad2fee92a82887b498209958bdcb8078, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team1Color: {r: 0, g: 0, b: 1, a: 1}
-  team2Color: {r: 1, g: 0, b: 0, a: 1}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &7882371528977764666
 GameObject:
   m_ObjectHideFlags: 0
@@ -2854,7 +2796,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2951850540636310101}
   - component: {fileID: 7751082418700117037}
-  - component: {fileID: 9037745664173011745}
   m_Layer: 0
   m_Name: Daft1_Retopo
   m_TagString: Untagged
@@ -2951,21 +2892,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.00576563, z: -0.00059528765}
     m_Extent: {x: 0.0012312246, y: 0.0013807872, z: 0.0013442975}
   m_DirtyAABB: 0
---- !u!114 &9037745664173011745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8399485316742665556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad2fee92a82887b498209958bdcb8078, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team1Color: {r: 0, g: 0, b: 1, a: 1}
-  team2Color: {r: 1, g: 0, b: 0, a: 1}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &8433394242579101712
 GameObject:
   m_ObjectHideFlags: 0

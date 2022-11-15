@@ -25,7 +25,7 @@ public class PlayerController : NetworkBehaviour
     // Player attribute variables
     public int maxHealth = 10;
     public int weapon1Damage = 2;
-    public float weapon1ShotDelay = .5f;
+    public float weapon1ShotDelay = 45/60;
 
     // Unity Character controller
     CharacterController characterController;
@@ -296,7 +296,7 @@ public class PlayerController : NetworkBehaviour
     public void Shoot()
     {
         // Execute charging animation
-        railgunAnimator.SetBool(animIDShoot, true);
+        railgunAnimator.SetTrigger(animIDShoot);
         
         Debug.Log("Weapon Charging");
         Invoke("HitScanServerRpc", weapon1ShotDelay);

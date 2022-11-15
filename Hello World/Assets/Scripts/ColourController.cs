@@ -4,19 +4,27 @@ using UnityEngine;
 
 public class ColourController : MonoBehaviour
 {
-    Renderer renderer;
+    //Mesh Renderers
+    public Renderer bodyRenderer;
+    public Renderer railgunRenderer;
+    public Renderer helmet1Renderer;
+    public Renderer helmet2Renderer;
+    public Renderer helmet3Renderer;
+    public Renderer helmet4Renderer;
+
     PlayerController playerController;
 
+    //HDR Colours
     [ColorUsage(true, true)]
     public Color team1Color = Color.blue;
     [ColorUsage(true, true)]
     public Color team2Color = Color.red;
     [ColorUsage(true, true)]
     public Color defaultColor = Color.white;
+
     // Start is called before the first frame update
     void Start()
     {
-        renderer = GetComponent<Renderer>();
         playerController = GetComponentInParent<PlayerController>();
     }
 
@@ -25,17 +33,33 @@ public class ColourController : MonoBehaviour
     {
         if(playerController.team.Value == 1)
         {
-            renderer.material.SetColor("_EmissionColor", team1Color);
+            bodyRenderer.material.SetColor("_EmissionColor", team1Color);
+            railgunRenderer.material.SetColor("_EmissionColor", team1Color);
+            helmet2Renderer.material.SetColor("_EmissionColor", team1Color);
+            helmet4Renderer.material.SetColor("_EmissionColor", team1Color);
+            helmet3Renderer.material.SetColor("_EmissionColor", team1Color);
+            helmet4Renderer.material.SetColor("_EmissionColor", team1Color);
 
         }
         else if (playerController.team.Value == 2)
         {
-            renderer.material.SetColor("_EmissionColor", team2Color);
+            bodyRenderer.material.SetColor("_EmissionColor", team2Color);
+            railgunRenderer.material.SetColor("_EmissionColor", team2Color);
+            helmet2Renderer.material.SetColor("_EmissionColor", team2Color);
+            helmet4Renderer.material.SetColor("_EmissionColor", team2Color);
+            helmet3Renderer.material.SetColor("_EmissionColor", team2Color);
+            helmet4Renderer.material.SetColor("_EmissionColor", team2Color);
         }
         else
         {
-            renderer.material.SetColor("_EmissionColor", defaultColor);
+            bodyRenderer.material.SetColor("_EmissionColor", defaultColor);
+            railgunRenderer.material.SetColor("_EmissionColor", defaultColor);
+            helmet2Renderer.material.SetColor("_EmissionColor", defaultColor);
+            helmet4Renderer.material.SetColor("_EmissionColor", defaultColor);
+            helmet3Renderer.material.SetColor("_EmissionColor", defaultColor);
+            helmet4Renderer.material.SetColor("_EmissionColor", defaultColor);
         }
 
+    //https://answers.unity.com/questions/1206632/trigger-event-on-variable-change.html
     }
 }
