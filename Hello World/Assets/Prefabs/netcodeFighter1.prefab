@@ -240,6 +240,7 @@ GameObject:
   - component: {fileID: 530614559183772395}
   - component: {fileID: 530614559183772392}
   - component: {fileID: 7527392046195286211}
+  - component: {fileID: 4822189573423567228}
   m_Layer: 0
   m_Name: First Person Camera
   m_TagString: Untagged
@@ -332,6 +333,66 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 1
   Interpolate: 1
+--- !u!114 &4822189573423567228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530614559183772394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeTrigger: {fileID: 530614559183772395}
+  volumeLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  stopNaNPropagation: 1
+  finalBlitToCameraTarget: 0
+  antialiasingMode: 0
+  temporalAntialiasing:
+    jitterSpread: 0.75
+    sharpness: 0.25
+    stationaryBlending: 0.95
+    motionBlending: 0.85
+  subpixelMorphologicalAntialiasing:
+    quality: 2
+  fastApproximateAntialiasing:
+    fastMode: 0
+    keepAlpha: 0
+  fog:
+    enabled: 1
+    excludeSkybox: 1
+  debugLayer:
+    lightMeter:
+      width: 512
+      height: 256
+      showCurves: 1
+    histogram:
+      width: 512
+      height: 256
+      channel: 3
+    waveform:
+      exposure: 0.12
+      height: 256
+    vectorscope:
+      size: 256
+      exposure: 0.12
+    overlaySettings:
+      linearDepth: 0
+      motionColorIntensity: 4
+      motionGridSize: 64
+      colorBlindnessType: 0
+      colorBlindnessStrength: 1
+  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  m_ShowToolkit: 1
+  m_ShowCustomSorter: 1
+  breakBeforeColorGrading: 0
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles: []
+  m_AfterStackBundles: []
 --- !u!1 &530614559549839873
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,7 +1046,7 @@ MonoBehaviour:
   jumpBoostMultiplier: 1.1
   maxHealth: 10
   weapon1Damage: 2
-  myTeam: 0
+  weapon1ShotDelay: 0.5
   playerNumber: 0
   fpcam: {fileID: 530614559183772395}
   prefab: {fileID: 400914745412888035, guid: c9ad38acd71471540a7e59c2994a0efa, type: 3}
@@ -1127,9 +1188,13 @@ MonoBehaviour:
         byte0123: 0
         byte0124: 0
         byte0125: 0
+  helmetSelection:
+    m_InternalValue: 0
   playerHealth:
     m_InternalValue: 10
   playerIsDead:
+    m_InternalValue: 0
+  team:
     m_InternalValue: 0
   Helmet1: {fileID: 4129639798448538421}
   Helmet2: {fileID: 8399485316742665556}
