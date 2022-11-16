@@ -7,25 +7,27 @@ using TMPro;
 
 public class PlayerController : NetworkBehaviour
 {
-    //Movement Variables
+    [Header("Movement Variables")]
     public float turnSpeed = 180;
     public float tiltSpeed = 180;
     public float walkSpeed = 5;
     public float sprintSpeed = 10;
 
-    // Default gravity value
+    [Header("Gravity")]
     public float gravity = 9.81f;
 
     // jumpSpeed = upwards force / jumpBoostMultiplier = movement direction force
+    [Header("Jump Attributes")]
     public float jumpSpeed = 5;
     public float jumpBoostMultiplier = 1.2f;
 
     // Player movement direction holder
     Vector3 moveDirection = Vector3.zero;
 
-    // Player attribute variables
+    [Header("Player Attributes")]
     public int maxHealth = 10;
     public int weapon1Damage = 2;
+    [Tooltip("Delay before shot / ServerRPC")]
     public float weapon1ShotDelay = .5f;
     public float weapon1ShotMaxCooldown = 1f;
     public float wallPlaceMaxCooldown = 10f;
@@ -33,11 +35,18 @@ public class PlayerController : NetworkBehaviour
     private float weapon1ShotCooldown = 1f;
     private float wallPlaceCooldown = 1f;
 
+    [Header("UI Objects")]
+    public WallCooldownUI wallCooldown;
+
     // Unity Character controller
     CharacterController characterController;
 
-    // Player number for spawnpoint allocation
+    [Header("Player Identifiers")]
+    [Tooltip("Player number for spawnpoint allocation")]
     public int playerNumber;
+
+    [SerializeField]
+    TMP_Text playerNameDisplay;
 
     // Animator
     private bool hasAnimator;
@@ -61,11 +70,12 @@ public class PlayerController : NetworkBehaviour
     // Railgun Animation IDs
     private int animIDShoot;
 
-
+    [Header("Camera Objects")]
     [SerializeField]
     private Transform fpcam;
     private Camera topcam;
 
+    [Header("Network Object Prefabs")]
     // Network Object prefabs
     [SerializeField] 
     private Transform risingWall;
@@ -82,9 +92,18 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private Transform blastRed;
 
-    [SerializeField]
-    TMP_Text playerNameDisplay;
+    [Header("Customisable Objects")]
+    //Helmets
+    public GameObject Helmet1;
+    public GameObject Helmet2;
+    public GameObject Helmet3;
+    public GameObject Helmet4;
 
+    [Header("Player Weapon")]
+    //Railgun
+    public GameObject Railgun;
+
+    [Header("Network Variables")]
     //Network Variables
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
     public NetworkVariable<int> helmetSelection = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
@@ -92,16 +111,7 @@ public class PlayerController : NetworkBehaviour
     public NetworkVariable<bool> playerIsDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<int> team = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-    //Helmets
-    public GameObject Helmet1;
-    public GameObject Helmet2;
-    public GameObject Helmet3;
-    public GameObject Helmet4;
 
-    //Railgun
-    public GameObject Railgun;
-
-    //
  
 
     private void Awake()
@@ -186,6 +196,8 @@ public class PlayerController : NetworkBehaviour
             }
 
             reduceCooldowns();
+            wallCooldown.UpdateCooldownUI((wallPlaceMaxCooldown - wallPlaceCooldown) / wallPlaceMaxCooldown);
+            Debug.Log(wallPlaceMaxCooldown);
 
             //Movement Input
             float forward = Input.GetAxisRaw("Vertical");
