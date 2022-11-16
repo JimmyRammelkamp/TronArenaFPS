@@ -25,7 +25,12 @@ public class PlayerController : NetworkBehaviour
     // Player attribute variables
     public int maxHealth = 10;
     public int weapon1Damage = 2;
-    public float weapon1ShotDelay = .7f;
+    public float weapon1ShotDelay = .5f;
+    public float weapon1ShotMaxCooldown = 1f;
+    public float wallPlaceMaxCooldown = 10f;
+
+    private float weapon1ShotCooldown = 1f;
+    private float wallPlaceCooldown = 1f;
 
     // Unity Character controller
     CharacterController characterController;
@@ -65,10 +70,16 @@ public class PlayerController : NetworkBehaviour
     private Transform risingWall;
 
     [SerializeField]
-    private Transform laserBeam;
+    private Transform laserTeam1;
+    
+    [SerializeField]
+    private Transform laserTeam2;
 
     [SerializeField]
-    private Transform blastPrefab;
+    private Transform blastBlue;
+
+    [SerializeField]
+    private Transform blastRed;
 
     [SerializeField]
     TextMesh playerNameDisplay;
@@ -155,9 +166,19 @@ public class PlayerController : NetworkBehaviour
 
         if (IsOwner & playerIsDead.Value == false)
         {
-            if (Input.GetKeyDown(KeyCode.E)) WallSpawnServerRpc();
-            if (Input.GetKeyDown(KeyCode.Mouse0)) Shoot();
-           
+            if (Input.GetKeyDown(KeyCode.E) && wallPlaceCooldown <= 0)
+            {
+                WallSpawnServerRpc();
+                wallPlaceCooldown = wallPlaceMaxCooldown;
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse0) && weapon1ShotCooldown <= 0)
+            {
+                Shoot();
+                weapon1ShotCooldown = weapon1ShotMaxCooldown;
+            }
+
+            reduceCooldowns();
+
             //Movement Input
             float forward = Input.GetAxisRaw("Vertical");
             float right = Input.GetAxisRaw("Horizontal");
@@ -235,7 +256,6 @@ public class PlayerController : NetworkBehaviour
         }
 
 
-
         //if (Input.GetKeyDown(KeyCode.Space))
         //{
         //    //swap cameras
@@ -294,6 +314,17 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    private void reduceCooldowns()
+    {
+        if(weapon1ShotCooldown > 0)
+        {
+            weapon1ShotCooldown -= 1f * Time.deltaTime;
+        }
+        if(wallPlaceCooldown > 0)
+        {
+            wallPlaceCooldown -= 1f * Time.deltaTime;
+        }
+    }
     
     public void Hit()
     {
@@ -304,7 +335,7 @@ public class PlayerController : NetworkBehaviour
     public void Shoot()
     {
         // Execute charging animation
-        railgunAnimator.SetBool(animIDShoot, true);
+        railgunAnimator.SetTrigger(animIDShoot);
         
         Debug.Log("Weapon Charging");
         Invoke("HitScanServerRpc", weapon1ShotDelay);
@@ -321,26 +352,54 @@ public class PlayerController : NetworkBehaviour
     void HitScanServerRpc()
     {
         // Instantiate Laser Beam
-        var laserObj = Instantiate(laserBeam);
-        laserObj.position = Railgun.transform.position - Railgun.transform.up;
-        laserObj.rotation = Railgun.transform.rotation;
-        laserObj.Rotate(90, 0, 90);
-        laserObj.GetComponent<NetworkObject>().Spawn(true);
+        if(team.Value == 2)
+        {
+            var laserObj = Instantiate(laserTeam2);
+            laserObj.position = Railgun.transform.position - 0.5f * Railgun.transform.up;
+            laserObj.rotation = Railgun.transform.rotation;
+            laserObj.Rotate(90, 0, 90);
+            laserObj.GetComponent<NetworkObject>().Spawn(true);
+        }
+        else
+        {
+            var laserObj = Instantiate(laserTeam1);
+            laserObj.position = Railgun.transform.position - 0.5f * Railgun.transform.up;
+            laserObj.rotation = Railgun.transform.rotation;
+            laserObj.Rotate(90, 0, 90);
+            laserObj.GetComponent<NetworkObject>().Spawn(true);
+        }
+        
+        
 
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(fpcam.position, fpcam.forward, out hit, Mathf.Infinity))
         {
             // Instantiate Blast Particle
-            var blastObj = Instantiate(blastPrefab);
-            blastObj.position = hit.point + Railgun.transform.up;
-            blastObj.GetComponent<NetworkObject>().Spawn(true);
+            if(team.Value == 2)
+            {
+                var blastObj = Instantiate(blastRed);
+                blastObj.position = hit.point + Railgun.transform.up;
+                blastObj.GetComponent<NetworkObject>().Spawn(true);
+            }
+            else
+            {
+                var blastObj = Instantiate(blastBlue);
+                blastObj.position = hit.point + Railgun.transform.up;
+                blastObj.GetComponent<NetworkObject>().Spawn(true);
+            }
+
 
             if (hit.collider.CompareTag("Player") && hit.collider.GetComponent<PlayerController>().team.Value != team.Value )
             {
                 FindObjectOfType<HelloWorldManager>().DamagePlayerClientRpc(hit.collider.gameObject.GetComponent<PlayerController>(), weapon1Damage);
                 Debug.DrawRay(fpcam.position, fpcam.forward * hit.distance, Color.yellow);
                 Debug.Log(playerName.Value + "Landed a Shot");
+            }
+            if (hit.collider.CompareTag("WallPrefab"))
+            {
+                FindObjectOfType<HelloWorldManager>().DamageWallClientRpc(hit.collider.gameObject.GetComponent<RisingWall>(), weapon1Damage);
+                Debug.Log(playerName.Value + "Shot a WallPrefab");
             }
 
         }
