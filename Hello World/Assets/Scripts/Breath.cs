@@ -16,7 +16,7 @@ public class Breath : MonoBehaviour
 
     private void Start()
     {
-        movement = transform.localPosition.y;
+        movement = transform.localPosition.y + Random.Range(-0.02f, 0.02f);
     }
 
     // Update is called once per frame

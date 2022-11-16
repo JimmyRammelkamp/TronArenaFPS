@@ -4,9 +4,20 @@ using UnityEngine;
 
 public class RisingWall : MonoBehaviour
 {
-    public float maxHealth = 30;
+    [SerializeField]
+    [Tooltip("Total health received on spawn")]
+    private float maxHealth = 30;
+
     private float currentHealth = 30;
-    public GameObject self;
+
+    [SerializeField]
+    [Tooltip("Reference to self for destroy function")]
+    private GameObject self;
+
+    private void Start()
+    {
+        currentHealth = maxHealth;
+    }
 
     // Update is called once per frame
     void Update()
