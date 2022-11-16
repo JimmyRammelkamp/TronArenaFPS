@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 using Unity.Netcode;
+using TMPro;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -82,7 +83,7 @@ public class PlayerController : NetworkBehaviour
     private Transform blastRed;
 
     [SerializeField]
-    TextMesh playerNameDisplay;
+    TMP_Text playerNameDisplay;
 
     //Network Variables
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
