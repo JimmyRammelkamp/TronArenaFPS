@@ -14237,7 +14237,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &754796034
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28154,8 +28154,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.08249426
-  m_Center: {x: 0, y: 0.08249426, z: 0}
+  m_Radius: 0.0013055778
+  m_Center: {x: -1.7208343e-18, y: 0.00072419364, z: -2.6978324e-11}
 --- !u!43 &1591929893
 Mesh:
   m_ObjectHideFlags: 0
@@ -31970,7 +31970,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh38246
+  m_Name: pb_Mesh100494
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -33003,7 +33003,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!144 &2129549007
 CharacterJoint:
   m_ObjectHideFlags: 0
