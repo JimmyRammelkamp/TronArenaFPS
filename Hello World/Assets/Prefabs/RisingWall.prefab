@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -3678171337996838527}
   m_Layer: 0
   m_Name: RisingWall
-  m_TagString: Untagged
+  m_TagString: WallPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -180,3 +180,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d4edc864ae2c90428bf0ecee2e7c45d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 30
+  self: {fileID: 400914745412888038}

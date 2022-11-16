@@ -123,6 +123,14 @@ public class HelloWorldManager : MonoBehaviour
         }
     }
 
+    [ClientRpc]
+    public void DamageWallClientRpc(RisingWall wall, int damage)
+    {
+        wall.takeDamage(damage);
+        Debug.Log("Wall has been hit for " + damage + " damage");
+        Debug.Log("Wall is at " + wall.getHealth() + " health");
+    }
+
     //private void Start()
     //{
     //    IPaddress.text = PlayerPrefs.GetString("IPaddress");

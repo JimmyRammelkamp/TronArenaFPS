@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Team1Spawn
   - Team2Spawn
+  - WallPrefab
   layers:
   - Default
   - TransparentFX
