@@ -114,10 +114,17 @@ public class PlayerController : NetworkBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
 
-        if (IsOwner) playerName.Value = PlayerPrefs.GetString("PlayerName");
+        if (IsOwner)
+        {
+            playerName.Value = PlayerPrefs.GetString("PlayerName");
 
-        //Helmet Assignment
-        if (IsOwner) helmetSelection.Value = PlayerPrefs.GetInt("Helmet");
+            //Helmet Assignment
+            helmetSelection.Value = PlayerPrefs.GetInt("Helmet");
+
+            playerNumber = (int)OwnerClientId;
+            Debug.Log(playerName.Value + " is player number " + playerNumber);
+        }
+        
         
         // find character controller
         characterController = GetComponent<CharacterController>();
@@ -128,7 +135,7 @@ public class PlayerController : NetworkBehaviour
 
         AssignAnimationIDs();
 
-
+        
 
         // SetNameServerRpc(playerName.Value.ToString());
     }
@@ -273,7 +280,7 @@ public class PlayerController : NetworkBehaviour
     {
         //play death animation
         animator.SetTrigger(animIDDeath);
-        Invoke("Spawn", 3);
+        Invoke("DestroyServerRpc", 3);
         FindObjectOfType<DeathmatchManager>().PlayerKilledServerRpc(team.Value);
     }
     public void OnDeathStateChanged(bool previous, bool current)
@@ -284,6 +291,7 @@ public class PlayerController : NetworkBehaviour
             animator.SetTrigger(animIDDeath);
             Invoke("Spawn", 3);
             FindObjectOfType<DeathmatchManager>().PlayerKilledServerRpc(team.Value);
+
         }
     }
 
@@ -332,6 +340,8 @@ public class PlayerController : NetworkBehaviour
         {
             transform.position = new Vector3(Random.Range(-20f, 20f), 1f, Random.Range(-20f, 20f));
         }
+
+        
     }
 
     private void reduceCooldowns()
@@ -361,6 +371,12 @@ public class PlayerController : NetworkBehaviour
         Invoke("HitScanServerRpc", weapon1ShotDelay);
     }
 
+
+    [ServerRpc(RequireOwnership = false)]
+    public void DestroyServerRpc()
+    {
+        Destroy(this.gameObject);
+    }
     [ServerRpc]
     void SetNameServerRpc(string name)
     {
