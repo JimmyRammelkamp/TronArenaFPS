@@ -120,6 +120,7 @@ public class HelloWorldManager : MonoBehaviour
             player.playerHealth.Value = 0;
             player.playerIsDead.Value = true;
             Debug.Log(player.playerName.Value + " is Dead");
+            player.PlayerDead();
         }
     }
 

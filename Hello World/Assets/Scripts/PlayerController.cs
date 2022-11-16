@@ -105,7 +105,7 @@ public class PlayerController : NetworkBehaviour
 
     private void Awake()
     {
-        
+       // playerIsDead.OnValueChanged += OnDeathStateChanged;
     }
 
     // Start is called before the first frame update
@@ -248,12 +248,13 @@ public class PlayerController : NetworkBehaviour
 
 
 
-        if(playerIsDead.Value == true)
-        {
-            //play death animation
-            animator.SetTrigger(animIDDeath);
-            Invoke("Spawn", 3);
-        }
+        //if (playerIsDead.Value == true)
+        //{
+        //    //play death animation
+        //    animator.SetTrigger(animIDDeath);
+        //    Invoke("Spawn", 3);
+        //    FindObjectOfType<DeathmatchManager>().PlayerKilledServerRpc(team.Value);
+        //}
 
 
         //if (Input.GetKeyDown(KeyCode.Space))
@@ -265,9 +266,27 @@ public class PlayerController : NetworkBehaviour
         //  https://addam-davis1989.medium.com/jumping-with-physics-based-character-controller-in-unity-45462a04e62
 
 
-       if(IsOwner) DebugInputs();
+        if (IsOwner) DebugInputs();
 
     }
+    public void PlayerDead()
+    {
+        //play death animation
+        animator.SetTrigger(animIDDeath);
+        Invoke("Spawn", 3);
+        FindObjectOfType<DeathmatchManager>().PlayerKilledServerRpc(team.Value);
+    }
+    public void OnDeathStateChanged(bool previous, bool current)
+    {
+        if (playerIsDead.Value == true)
+        {
+            //play death animation
+            animator.SetTrigger(animIDDeath);
+            Invoke("Spawn", 3);
+            FindObjectOfType<DeathmatchManager>().PlayerKilledServerRpc(team.Value);
+        }
+    }
+
 
     // Debug keys for testing - !REMEMBER TO REMOVE!
     public void DebugInputs()
@@ -296,6 +315,7 @@ public class PlayerController : NetworkBehaviour
 
     public void Spawn()
     {
+        Debug.Log("Respawning " + playerName.Value);
         playerIsDead.Value = false;
         playerHealth.Value = maxHealth;
         if (team.Value == 1) //Spawn on Team1 spawn point
