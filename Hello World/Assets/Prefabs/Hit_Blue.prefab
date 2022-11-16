@@ -9643,7 +9643,7 @@ GameObject:
   - component: {fileID: 4063638081786604373}
   - component: {fileID: -1827241891856026679}
   m_Layer: 0
-  m_Name: Hit_45
+  m_Name: Hit_Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
