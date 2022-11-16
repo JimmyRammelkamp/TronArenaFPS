@@ -5,8 +5,11 @@ using UnityEngine;
 public class ColourController : MonoBehaviour
 {
     //Mesh Renderers
+    [Header("Default Meshes")]
     public Renderer bodyRenderer;
     public Renderer railgunRenderer;
+
+    [Header("Customisable Meshes")]
     public Renderer helmet1Renderer;
     public Renderer helmet2Renderer;
     public Renderer helmet3Renderer;
@@ -15,6 +18,7 @@ public class ColourController : MonoBehaviour
     PlayerController playerController;
 
     //HDR Colours
+    [Header("Team Colours")]
     [ColorUsage(true, true)]
     public Color team1Color = Color.blue;
     [ColorUsage(true, true)]

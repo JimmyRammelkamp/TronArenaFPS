@@ -254,11 +254,6 @@ ModelImporter:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character1
-      parentName: netcodeFighter1(Clone)
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-      scale: {x: 100, y: 100, z: 100}
     - name: Armature
       parentName: netcodeFighter1(Clone)
       position: {x: -0, y: 0, z: 0}
@@ -312,7 +307,7 @@ ModelImporter:
     - name: Hand L
       parentName: Lower Arm L
       position: {x: -2.629531e-10, y: 0.0025425942, z: 1.5366822e-10}
-      rotation: {x: 0.025196327, y: 0.038527306, z: 0.08307258, w: 0.99547964}
+      rotation: {x: 0.025196329, y: 0.038527306, z: 0.08307259, w: 0.99547964}
       scale: {x: 1.0000015, y: 1.0000013, z: 0.9999998}
     - name: Hand L_end
       parentName: Hand L
@@ -332,12 +327,12 @@ ModelImporter:
     - name: Lower Arm R
       parentName: Upper Arm R
       position: {x: 1.3960744e-10, y: 0.0028148773, z: 1.4842953e-11}
-      rotation: {x: 0.0336521, y: -0.0040588556, z: 0.006073335, w: 0.9994069}
+      rotation: {x: 0.033652104, y: -0.004058856, z: 0.0060733357, w: 0.99940693}
       scale: {x: 1.000002, y: 1.0000027, z: 1.0000002}
     - name: Hand R
       parentName: Lower Arm R
       position: {x: 4.1618476e-11, y: 0.002542595, z: 1.7229468e-10}
-      rotation: {x: 0.025196144, y: -0.03852741, z: -0.08307246, w: 0.99547964}
+      rotation: {x: 0.025196146, y: -0.03852741, z: -0.08307247, w: 0.99547964}
       scale: {x: 1.0000005, y: 1.0000005, z: 1.0000006}
     - name: Hand R_end
       parentName: Hand R
@@ -347,12 +342,12 @@ ModelImporter:
     - name: Upper Leg L
       parentName: Hips
       position: {x: -0.0008268958, y: -0.00068328023, z: 0.000042943964}
-      rotation: {x: -0.004083931, y: 0.0048498805, z: 0.9981627, w: 0.060257554}
+      rotation: {x: -0.0040839314, y: 0.004849881, z: 0.99816275, w: 0.060257558}
       scale: {x: 1.0000031, y: 0.9999997, z: 0.99999964}
     - name: Lower Leg L
       parentName: Upper Leg L
       position: {x: 1.2340111e-11, y: 0.0038523115, z: 3.9799487e-11}
-      rotation: {x: 0.011657473, y: -0.00029905213, z: 0.0058402685, w: 0.99991494}
+      rotation: {x: 0.011657474, y: -0.00029905213, z: 0.005840269, w: 0.99991494}
       scale: {x: 1.0000024, y: 1.0000019, z: 0.99999994}
     - name: Foot L
       parentName: Lower Leg L
@@ -372,12 +367,12 @@ ModelImporter:
     - name: Upper Leg R
       parentName: Hips
       position: {x: 0.0008268958, y: -0.00068328023, z: 0.000042943964}
-      rotation: {x: 0.004083931, y: 0.0048498805, z: 0.9981627, w: -0.060257554}
+      rotation: {x: 0.0040839314, y: 0.004849881, z: 0.99816275, w: -0.060257558}
       scale: {x: 1.0000031, y: 0.9999997, z: 0.99999964}
     - name: Lower Leg R
       parentName: Upper Leg R
       position: {x: 2.9521757e-11, y: 0.0038523115, z: -1.6661943e-11}
-      rotation: {x: 0.011657473, y: 0.0002990484, z: -0.0058402647, w: 0.99991494}
+      rotation: {x: 0.011657474, y: 0.0002990484, z: -0.005840265, w: 0.99991494}
       scale: {x: 1.0000023, y: 1.0000019, z: 0.99999994}
     - name: Foot R
       parentName: Lower Leg R
@@ -394,7 +389,7 @@ ModelImporter:
       position: {x: -0, y: 0.0011194681, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Quorra_Retopo
+    - name: Character1
       parentName: netcodeFighter1(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
@@ -410,6 +405,11 @@ ModelImporter:
       rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
       scale: {x: 100, y: 100, z: 100}
     - name: Daft2_Retopo
+      parentName: netcodeFighter1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Quorra_Retopo
       parentName: netcodeFighter1(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
