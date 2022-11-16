@@ -10,10 +10,6 @@ public class RisingWall : MonoBehaviour
 
     private float currentHealth = 30;
 
-    [SerializeField]
-    [Tooltip("Reference to self for destroy function")]
-    private GameObject self;
-
     private void Start()
     {
         currentHealth = maxHealth;
@@ -40,6 +36,6 @@ public class RisingWall : MonoBehaviour
 
     private void DisableSelf()
     {
-        Destroy(self);
+        Destroy(this.gameObject);
     }
 }

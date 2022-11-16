@@ -5,8 +5,6 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     private LineRenderer laserLR;
-    [Tooltip("Reference to self for destroy function")]
-    public GameObject self;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +34,6 @@ public class Laser : MonoBehaviour
     // Destroy Self function
     private void DisableSelf()
     {
-        Destroy(self);
+        Destroy(this.gameObject);
     }
 }
