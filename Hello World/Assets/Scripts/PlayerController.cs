@@ -197,7 +197,7 @@ public class PlayerController : NetworkBehaviour
 
             reduceCooldowns();
             wallCooldown.UpdateCooldownUI((wallPlaceMaxCooldown - wallPlaceCooldown) / wallPlaceMaxCooldown);
-            Debug.Log(wallPlaceMaxCooldown);
+            //Debug.Log(wallPlaceMaxCooldown);
 
             //Movement Input
             float forward = Input.GetAxisRaw("Vertical");
@@ -341,13 +341,13 @@ public class PlayerController : NetworkBehaviour
         playerHealth.Value = maxHealth;
         if (team.Value == 1) //Spawn on Team1 spawn point
         {
-            GameObject[] spawnPos = GameObject.FindGameObjectsWithTag("Team1Spawn");
-            transform.position = spawnPos[playerNumber].transform.position;
+            GameObject spawnPos = GameObject.FindGameObjectWithTag("Team1Spawn");
+            transform.position = spawnPos.transform.position;
         }
         else if (team.Value == 2) //Spawn on Team2 spawn point
         {
-            GameObject[] spawnPos = GameObject.FindGameObjectsWithTag("Team2Spawn");
-            transform.position = spawnPos[playerNumber].transform.position;
+            GameObject spawnPos = GameObject.FindGameObjectWithTag("Team2Spawn");
+            transform.position = spawnPos.transform.position;
         }
         else //Spawn Randomly on map
         {
