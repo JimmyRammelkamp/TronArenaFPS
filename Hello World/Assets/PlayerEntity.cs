@@ -20,28 +20,6 @@ public class PlayerEntity : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (IsOwner)
-        {
-            playerName.Value = PlayerPrefs.GetString("PlayerName");
-
-
-
-            //Helmet Assignment
-            helmetSelection.Value = PlayerPrefs.GetInt("Helmet");
-
-            clientId.Value = (int)OwnerClientId;
-
-            if (clientId.Value % 2 == 0)
-            {
-                team.Value = 2;
-
-            }
-            else
-            {
-                team.Value = 1;
-            }
-        }
-
         PlayerSpawnServerRpc();
     }
 
@@ -80,27 +58,26 @@ public class PlayerEntity : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        //if (IsOwner)
-        //{
-        //    playerName.Value = PlayerPrefs.GetString("PlayerName");
+        if (IsOwner)
+        {
+            playerName.Value = PlayerPrefs.GetString("PlayerName");
 
-           
 
-        //    //Helmet Assignment
-        //    helmetSelection.Value = PlayerPrefs.GetInt("Helmet");
+            //Helmet Assignment
+            helmetSelection.Value = PlayerPrefs.GetInt("Helmet");
 
-        //    clientId.Value = (int)OwnerClientId;
+            clientId.Value = (int)OwnerClientId;
 
-        //    if (clientId.Value % 2 == 0)
-        //    {
-        //        team.Value = 2;
+            if (clientId.Value % 2 == 0)
+            {
+                team.Value = 2;
 
-        //    }
-        //    else
-        //    {
-        //        team.Value = 1;
-        //    }
-        //}
+            }
+            else
+            {
+                team.Value = 1;
+            }
+        }
     }
 
 
