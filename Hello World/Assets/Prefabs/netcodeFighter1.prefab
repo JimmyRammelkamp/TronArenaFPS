@@ -1225,11 +1225,13 @@ MonoBehaviour:
   laserTeam2: {fileID: 7317616663401847146, guid: 3c5f5711274e9cd47a584c1017979e04, type: 3}
   blastBlue: {fileID: 4050527243856104, guid: b666d467239ed584d8cae8de0861542c, type: 3}
   blastRed: {fileID: 4050527243856104, guid: a8fbf20362c1f5b4a85f250e493435d5, type: 3}
+  ragdollPrefab: {fileID: 2367338647582531967, guid: 4d78c229a9cce1045adc43d4afa5b7a9, type: 3}
   Helmet1: {fileID: 4129639798448538421}
   Helmet2: {fileID: 8399485316742665556}
   Helmet3: {fileID: 4474699656067171111}
   Helmet4: {fileID: 2678199534562902152}
   Railgun: {fileID: 1770545850568312005}
+  playerChar: {fileID: 7438591483384137625}
   playerName:
     m_InternalValue:
       utf8LengthInBytes: 4

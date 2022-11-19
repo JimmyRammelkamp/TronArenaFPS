@@ -691,6 +691,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2367338647582531967}
   - component: {fileID: 3139476617295150018}
+  - component: {fileID: -6223013188329183673}
+  - component: {fileID: 6554624313649821526}
+  - component: {fileID: 3998612974446056107}
+  - component: {fileID: 2216467481219864785}
+  - component: {fileID: 3929434625436310661}
   m_Layer: 0
   m_Name: RagdollFighter
   m_TagString: Untagged
@@ -706,7 +711,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3139476617295150021}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.152196, y: -4.709899, z: -7.3639107}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -741,6 +746,88 @@ MonoBehaviour:
   team1Color: {r: 0.85277253, g: 0.85277253, b: 2.6701567, a: 1}
   team2Color: {r: 2.0000005, g: 0, b: 0, a: 1}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!54 &-6223013188329183673
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3139476617295150021}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &6554624313649821526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3139476617295150021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  InLocalSpace: 1
+  Interpolate: 1
+--- !u!114 &3998612974446056107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3139476617295150021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2216467481219864785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3139476617295150021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &3929434625436310661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3139476617295150021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51950b7550049374cb6f88435ba60dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3164200158125769777
 GameObject:
   m_ObjectHideFlags: 0
@@ -1610,7 +1697,9 @@ GameObject:
   - component: {fileID: 5833594063866603781}
   - component: {fileID: 2121862129024587516}
   - component: {fileID: 6610939316340847548}
-  - component: {fileID: 6610939316340847549}
+  - component: {fileID: 4669662487554186631}
+  - component: {fileID: 2818941753962449770}
+  - component: {fileID: 8888454153600246954}
   m_Layer: 0
   m_Name: RagdollRailgun
   m_TagString: Untagged
@@ -1702,7 +1791,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &6610939316340847549
+--- !u!65 &4669662487554186631
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6610939316340847551}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0014904077, y: 0.009891359, z: 0.0029591436}
+  m_Center: {x: 0, y: -0.00019536095, z: -0.00005072238}
+--- !u!136 &2818941753962449770
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1712,10 +1814,24 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.0014795718
+  m_Radius: 0.0008197892
   m_Height: 0.009891359
   m_Direction: 1
-  m_Center: {x: 0.000000007450581, y: -0.0001953535, z: -0.000050726107}
+  m_Center: {x: -0.000013137608, y: -0.00019536077, z: -0.001547627}
+--- !u!136 &8888454153600246954
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6610939316340847551}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.0008197892
+  m_Height: 0.009891359
+  m_Direction: 1
+  m_Center: {x: -0.000013137608, y: -0.00019536077, z: 0.001547627}
 --- !u!1 &7373739243320744445
 GameObject:
   m_ObjectHideFlags: 0

@@ -60,7 +60,6 @@ public class PlayerController : NetworkBehaviour
     private int animIDMelee;
     private int animIDJump;
     private int animIDHit;
-    private int animIDDeath;
     private int animIDLaser;
     private int animIDWallSummon;
     private int animIDMissilesCast;
@@ -98,6 +97,10 @@ public class PlayerController : NetworkBehaviour
     [SerializeField]
     private Transform blastRed;
 
+    // Ragdoll Prefab
+    [SerializeField]
+    private Transform ragdollPrefab;
+
     [Header("Customisable Objects")]
     //Helmets
     public GameObject Helmet1;
@@ -108,6 +111,9 @@ public class PlayerController : NetworkBehaviour
     [Header("Player Weapon")]
     //Railgun
     public GameObject Railgun;
+
+    [Header("Player Character")]
+    public GameObject playerChar;
 
     [Header("Network Variables")]
     //Network Variables
@@ -163,7 +169,6 @@ public class PlayerController : NetworkBehaviour
         animIDMelee = Animator.StringToHash("Melee");
         animIDJump = Animator.StringToHash("Jump");
         animIDHit = Animator.StringToHash("Hit");
-        animIDDeath = Animator.StringToHash("Death");
         animIDLaser = Animator.StringToHash("Laser");
         animIDWallSummon = Animator.StringToHash("WallSummon");
         animIDMissilesCast = Animator.StringToHash("MissilesCast");
@@ -244,13 +249,10 @@ public class PlayerController : NetworkBehaviour
             {
                 wallPreviewObj.SetActive(false);
             }
-
-            Debug.Log(wallPreview);
             
 
             reduceCooldowns();
             wallCooldown.UpdateCooldownUI((wallPlaceMaxCooldown - wallPlaceCooldown) / wallPlaceMaxCooldown);
-            //Debug.Log(wallPlaceMaxCooldown);
 
             //Movement Input
             float forward = Input.GetAxisRaw("Vertical");
@@ -344,8 +346,9 @@ public class PlayerController : NetworkBehaviour
     }
     public void PlayerDead()
     {
-        //play death animation
-        animator.SetTrigger(animIDDeath);
+        Railgun.SetActive(false);
+        playerChar.SetActive(false);
+        ragdollSpawnServerRpc();
         Invoke("DestroyServerRpc", 3);
         FindObjectOfType<DeathmatchManager>().PlayerKilledServerRpc(team.Value);
     }
@@ -353,8 +356,6 @@ public class PlayerController : NetworkBehaviour
     {
         if (playerIsDead.Value == true)
         {
-            //play death animation
-            animator.SetTrigger(animIDDeath);
             Invoke("Spawn", 3);
             FindObjectOfType<DeathmatchManager>().PlayerKilledServerRpc(team.Value);
 
@@ -540,6 +541,15 @@ public class PlayerController : NetworkBehaviour
         obj.rotation = transform.rotation;
         obj.Rotate(-90, 0, 0);
         obj.GetComponent<NetworkObject>().Spawn(true);
+    }
+
+    [ServerRpc]
+    void ragdollSpawnServerRpc()
+    {
+        var ragObj = Instantiate(ragdollPrefab);
+        ragObj.position = transform.position;
+        ragObj.rotation = transform.rotation;
+        ragObj.GetComponent<NetworkObject>().Spawn(true);
     }
 
     public override void OnNetworkSpawn()
