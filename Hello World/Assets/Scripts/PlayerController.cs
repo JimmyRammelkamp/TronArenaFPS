@@ -424,7 +424,7 @@ public class PlayerController : NetworkBehaviour
         }
         else //Spawn Randomly on map
         {
-            transform.position = new Vector3(Random.Range(-20f, 20f), 1f, Random.Range(-20f, 20f));
+            transform.position = new Vector3(Random.Range(-11f, -25f), 1f, Random.Range(-30f, 0f));
         }
 
         
