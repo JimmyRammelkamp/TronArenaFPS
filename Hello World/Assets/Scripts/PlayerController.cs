@@ -79,21 +79,22 @@ public class PlayerController : NetworkBehaviour
 
     [Header("Network Object Prefabs")]
     // Network Object prefabs
+
+    // Rising wall prefabs
     [SerializeField] 
     private Transform risingWall;
-
     [SerializeField]
     private GameObject wallPreviewObj;
 
+    // Laser line renderer prefabs
     [SerializeField]
     private Transform laserTeam1;
-    
     [SerializeField]
     private Transform laserTeam2;
 
+    // Particle system prefabs
     [SerializeField]
     private Transform blastBlue;
-
     [SerializeField]
     private Transform blastRed;
 
