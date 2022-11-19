@@ -35,6 +35,8 @@ public class PlayerController : NetworkBehaviour
     private float weapon1ShotCooldown = 1f;
     private float wallPlaceCooldown = 1f;
 
+    private bool wallPreview = false;
+
     [Header("UI Objects")]
     public WallCooldownUI wallCooldown;
 
@@ -79,6 +81,9 @@ public class PlayerController : NetworkBehaviour
     // Network Object prefabs
     [SerializeField] 
     private Transform risingWall;
+
+    [SerializeField]
+    private GameObject wallPreviewObj;
 
     [SerializeField]
     private Transform laserTeam1;
@@ -172,6 +177,8 @@ public class PlayerController : NetworkBehaviour
     }
 
 
+
+
     // Update is called once per frame
     void Update()
     {
@@ -184,16 +191,61 @@ public class PlayerController : NetworkBehaviour
 
         if (IsOwner & playerIsDead.Value == false)
         {
-            if (Input.GetKeyDown(KeyCode.E) && wallPlaceCooldown <= 0)
+            // Wall Functions
+            // Enable wall preview mode when player presses E
+             if (Input.GetKeyDown(KeyCode.E) && wallPlaceCooldown <= 0)
             {
-                WallSpawnServerRpc();
+                wallPreview = true;
+            }
+             // Create Wall when player releases E
+            if (Input.GetKeyUp(KeyCode.E) && wallPlaceCooldown <= 0 && FloorFaceCheck())
+            {
+                WallSpawnServerRpc(wallPreviewObj.transform.position);
+                wallPreview = false;
+                wallPreviewObj.SetActive(false);
                 wallPlaceCooldown = wallPlaceMaxCooldown;
             }
+            // Exit Preview mode if player releases E without aiming at floor
+            else if(Input.GetKeyUp(KeyCode.E) && wallPlaceCooldown <= 0)
+            {
+                wallPreview = false;
+            }
+
             if (Input.GetKeyDown(KeyCode.Mouse0) && weapon1ShotCooldown <= 0)
             {
                 Shoot();
                 weapon1ShotCooldown = weapon1ShotMaxCooldown;
             }
+
+            // If Wall Preview Mode is active, Check if looking at floor, if looking at floor raycast again to set hit point and assign position of preview mesh
+            if (wallPreview)
+            {
+                if (FloorFaceCheck())
+                {
+                    wallPreviewObj.SetActive(true);
+                    RaycastHit hit;
+                    if (Physics.Raycast(fpcam.position, fpcam.forward, out hit, Mathf.Infinity))
+                    {
+                        if (hit.collider.CompareTag("Floor"))
+                        {
+                            wallPreviewObj.transform.position = hit.point;
+                        } 
+                    }
+                }
+                // Disable Preview mesh if no longer looking at floor
+                else
+                {
+                    wallPreviewObj.SetActive(false);
+                }
+            }
+            // Disable Preview mesh if out of preview mode
+            else
+            {
+                wallPreviewObj.SetActive(false);
+            }
+
+            Debug.Log(wallPreview);
+            
 
             reduceCooldowns();
             wallCooldown.UpdateCooldownUI((wallPlaceMaxCooldown - wallPlaceCooldown) / wallPlaceMaxCooldown);
@@ -308,6 +360,25 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    private bool FloorFaceCheck()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(fpcam.position, fpcam.forward, out hit, Mathf.Infinity))
+        {
+            if (hit.collider.CompareTag("Floor"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     // Debug keys for testing - !REMEMBER TO REMOVE!
     public void DebugInputs()
@@ -461,10 +532,10 @@ public class PlayerController : NetworkBehaviour
 
     // Wall Spawning RPC, creates terrain wall object
     [ServerRpc]
-    void WallSpawnServerRpc()
+    void WallSpawnServerRpc(Vector3 position)
     {
         var obj = Instantiate(risingWall);
-        obj.position = transform.position + 4 * transform.forward + -0.1f * transform.up;
+        obj.position = position;
         obj.rotation = transform.rotation;
         obj.Rotate(-90, 0, 0);
         obj.GetComponent<NetworkObject>().Spawn(true);
