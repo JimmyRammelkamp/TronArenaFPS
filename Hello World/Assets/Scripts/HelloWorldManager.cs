@@ -121,6 +121,7 @@ public class HelloWorldManager : MonoBehaviour
             player.playerIsDead.Value = true;
             Debug.Log(player.playerName.Value + " is Dead");
             player.PlayerDead();
+            
         }
     }
 

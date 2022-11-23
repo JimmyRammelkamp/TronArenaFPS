@@ -348,13 +348,16 @@ public class PlayerController : NetworkBehaviour
         if (IsOwner) DebugInputs();
 
     }
+
+   
     public void PlayerDead()
     {
-        Railgun.SetActive(false);
-        playerChar.SetActive(false);
+        //Railgun.SetActive(false);
+       //playerChar.SetActive(false);
         ragdollSpawnServerRpc();
-        Invoke("DestroyServerRpc", 3);
+        
         FindObjectOfType<DeathmatchManager>().PlayerKilledServerRpc(team.Value);
+        DestroyServerRpc();
     }
     public void OnDeathStateChanged(bool previous, bool current)
     {
@@ -534,9 +537,10 @@ public class PlayerController : NetworkBehaviour
         obj.GetComponent<NetworkObject>().Spawn(true);
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     void ragdollSpawnServerRpc()
     {
+        Debug.Log("Spawning Ragdoll");
         var ragObj = Instantiate(ragdollPrefab);
         ragObj.position = transform.position;
         ragObj.rotation = transform.rotation;
