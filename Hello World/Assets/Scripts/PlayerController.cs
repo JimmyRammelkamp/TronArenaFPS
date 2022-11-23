@@ -446,7 +446,7 @@ public class PlayerController : NetworkBehaviour
         {
             if(this.OwnerClientId == player.OwnerClientId)
             {
-                player.activePlayer.Value = true;
+                player.activePlayer.Value = false;
             }
         }
 
