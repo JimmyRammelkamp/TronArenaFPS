@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 using Unity.Netcode;
+using TMPro;
+using UnityEngine.UI;
 
 public class PlayerEntity : NetworkBehaviour
 {
@@ -11,16 +13,24 @@ public class PlayerEntity : NetworkBehaviour
     public NetworkVariable<int> helmetSelection = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<int> team = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<int> clientId = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> activePlayer = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     public GameObject playerprefab;
 
+    GameObject player;
 
 
+    public TextMeshProUGUI button;
+
+    public Button spawnButton;
 
     // Start is called before the first frame update
     void Start()
     {
-        PlayerSpawnServerRpc();
+        if(IsOwner)
+        {
+            
+        }
     }
 
     // Update is called once per frame
@@ -31,12 +41,31 @@ public class PlayerEntity : NetworkBehaviour
         {
             if (Input.GetKeyDown(KeyCode.M))
             {
-                //playerprefab.SpawnWithOwnership(OwnerClientId);
+                if (Cursor.visible == false)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                }
+                else if (Cursor.visible == true)
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                }
+            }
 
-                // gameObject player = Instantiate()
-
+            if(Input.GetKeyDown(KeyCode.N))
+            {
                 PlayerSpawnServerRpc();
+            }
 
+
+            if (activePlayer.Value == false)
+            {
+                spawnButton.gameObject.SetActive(true);
+            }
+            else if(activePlayer.Value == true)
+            {
+                spawnButton.gameObject.SetActive(false);
             }
         }
         
@@ -47,12 +76,34 @@ public class PlayerEntity : NetworkBehaviour
     [ServerRpc]
     public void PlayerSpawnServerRpc()
     {
-        GameObject player = Instantiate(playerprefab);
+        Vector3 spawnPos;
+        Quaternion spawnRot;
+
+        if (team.Value == 1) //Spawn on Team1 spawn point
+        {
+            spawnPos = GameObject.FindGameObjectWithTag("Team1Spawn").transform.position;
+            spawnRot = GameObject.FindGameObjectWithTag("Team1Spawn").transform.rotation;
+            
+        }
+        else if (team.Value == 2) //Spawn on Team2 spawn point
+        {
+            spawnPos = GameObject.FindGameObjectWithTag("Team2Spawn").transform.position;
+            spawnRot = GameObject.FindGameObjectWithTag("Team2Spawn").transform.rotation;
+
+        }
+        else //Spawn Randomly on map
+        {
+            spawnPos = new Vector3(Random.Range(-11f, -25f), 1f, Random.Range(-30f, 0f));
+            spawnRot = new Quaternion(0f, Random.Range(0f, 360f),0f,0f);
+        }
+
+        player = Instantiate(playerprefab,spawnPos,spawnRot);
         player.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
         player.GetComponent<PlayerController>().playerName.Value = playerName.Value;
         player.GetComponent<PlayerController>().team.Value = team.Value;
         player.GetComponent<PlayerController>().helmetSelection.Value = helmetSelection.Value;
 
+        activePlayer.Value = true;
 
     }
 

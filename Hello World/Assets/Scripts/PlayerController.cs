@@ -117,11 +117,11 @@ public class PlayerController : NetworkBehaviour
 
     [Header("Network Variables")]
     //Network Variables
-    public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
-    public NetworkVariable<int> helmetSelection = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
+    public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> helmetSelection = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public NetworkVariable<int> playerHealth = new NetworkVariable<int>(10, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<bool> playerIsDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public NetworkVariable<int> team = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> team = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
 
  
@@ -134,18 +134,20 @@ public class PlayerController : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = true;
+        
 
         if (IsOwner)
         {
-            playerName.Value = PlayerPrefs.GetString("PlayerName");
+            //playerName.Value = PlayerPrefs.GetString("PlayerName");
 
             //Helmet Assignment
-            helmetSelection.Value = PlayerPrefs.GetInt("Helmet");
+            //helmetSelection.Value = PlayerPrefs.GetInt("Helmet");
 
             playerNumber = (int)OwnerClientId;
             Debug.Log(playerName.Value + " is player number " + playerNumber);
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
         
         
@@ -158,7 +160,7 @@ public class PlayerController : NetworkBehaviour
 
         AssignAnimationIDs();
 
-        
+        //SpawnServerRpc();
 
         // SetNameServerRpc(playerName.Value.ToString());
     }
@@ -222,6 +224,8 @@ public class PlayerController : NetworkBehaviour
                 Shoot();
                 weapon1ShotCooldown = weapon1ShotMaxCooldown;
             }
+
+            
 
             // If Wall Preview Mode is active, Check if looking at floor, if looking at floor raycast again to set hit point and assign position of preview mesh
             if (wallPreview)
@@ -407,29 +411,6 @@ public class PlayerController : NetworkBehaviour
 
     }
 
-    public void Spawn()
-    {
-        Debug.Log("Respawning " + playerName.Value);
-        playerIsDead.Value = false;
-        playerHealth.Value = maxHealth;
-        if (team.Value == 1) //Spawn on Team1 spawn point
-        {
-            GameObject spawnPos = GameObject.FindGameObjectWithTag("Team1Spawn");
-            transform.position = spawnPos.transform.position;
-        }
-        else if (team.Value == 2) //Spawn on Team2 spawn point
-        {
-            GameObject spawnPos = GameObject.FindGameObjectWithTag("Team2Spawn");
-            transform.position = spawnPos.transform.position;
-        }
-        else //Spawn Randomly on map
-        {
-            transform.position = new Vector3(Random.Range(-11f, -25f), 1f, Random.Range(-30f, 0f));
-        }
-
-        
-    }
-
     private void reduceCooldowns()
     {
         if(weapon1ShotCooldown > 0)
@@ -461,6 +442,16 @@ public class PlayerController : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void DestroyServerRpc()
     {
+        foreach(PlayerEntity player in FindObjectsOfType<PlayerEntity>())
+        {
+            if(this.OwnerClientId == player.OwnerClientId)
+            {
+                player.activePlayer.Value = true;
+            }
+        }
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Destroy(this.gameObject);
     }
     [ServerRpc]
@@ -555,10 +546,9 @@ public class PlayerController : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
 
-        if (IsOwner)
-        {
-            Spawn();
-        }
+        
+        //Spawn();
+       
 
         if (IsOwner && fpcam != null)
         {

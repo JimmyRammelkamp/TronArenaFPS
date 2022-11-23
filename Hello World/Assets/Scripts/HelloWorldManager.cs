@@ -132,6 +132,37 @@ public class HelloWorldManager : MonoBehaviour
         Debug.Log("Wall is at " + wall.getHealth() + " health");
     }
 
+
+    [ClientRpc]
+    public void SpawnClientRpc(int team, GameObject player)
+    {
+
+        //Debug.Log("Respawning " + playerName.Value);
+        //playerIsDead.Value = false;
+        //playerHealth.Value = maxHealth;
+        if (team == 1) //Spawn on Team1 spawn point
+        {
+            GameObject spawnPos = GameObject.FindGameObjectWithTag("Team1Spawn");
+            player.transform.position = spawnPos.transform.position;
+            // SpawnClientRpc(transform.position);
+        }
+        else if (team == 2) //Spawn on Team2 spawn point
+        {
+            GameObject spawnPos = GameObject.FindGameObjectWithTag("Team2Spawn");
+            player.transform.position = spawnPos.transform.position;
+            //SpawnClientRpc(transform.position);
+
+        }
+        else //Spawn Randomly on map
+        {
+            player.transform.position = new Vector3(UnityEngine.Random.Range(-11f, -25f), 1f, UnityEngine.Random.Range(-30f, 0f));
+            // SpawnClientRpc(transform.position);
+
+        }
+
+
+    }
+
     //private void Start()
     //{
     //    IPaddress.text = PlayerPrefs.GetString("IPaddress");
