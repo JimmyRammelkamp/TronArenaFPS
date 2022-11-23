@@ -354,7 +354,7 @@ public class PlayerController : NetworkBehaviour
     {
         //Railgun.SetActive(false);
        //playerChar.SetActive(false);
-        ragdollSpawnServerRpc();
+        ragdollSpawnServerRpc(team.Value, helmetSelection.Value);
         
         FindObjectOfType<DeathmatchManager>().PlayerKilledServerRpc(team.Value);
         DestroyServerRpc();
@@ -538,12 +538,14 @@ public class PlayerController : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void ragdollSpawnServerRpc()
+    void ragdollSpawnServerRpc(int team, int helmet)
     {
         Debug.Log("Spawning Ragdoll");
         var ragObj = Instantiate(ragdollPrefab);
         ragObj.position = transform.position;
         ragObj.rotation = transform.rotation;
+        ragObj.GetComponent<RagdollBehaviour>().SetHelmet(helmet);
+        ragObj.GetComponent<RagdollBehaviour>().SetTeam(team);
         ragObj.GetComponent<NetworkObject>().Spawn(true);
     }
 

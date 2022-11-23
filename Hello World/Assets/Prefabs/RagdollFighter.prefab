@@ -690,7 +690,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2367338647582531967}
-  - component: {fileID: 3139476617295150018}
   - component: {fileID: -6223013188329183673}
   - component: {fileID: 6554624313649821526}
   - component: {fileID: 3998612974446056107}
@@ -725,27 +724,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3139476617295150018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3139476617295150021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad2fee92a82887b498209958bdcb8078, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bodyRenderer: {fileID: 4036209667221095899}
-  railgunRenderer: {fileID: 2121862129024587516}
-  helmet1Renderer: {fileID: 5921773390245773672}
-  helmet2Renderer: {fileID: 6964367699992882410}
-  helmet3Renderer: {fileID: 2775138669996478016}
-  helmet4Renderer: {fileID: 2206203198605747078}
-  team1Color: {r: 0.85277253, g: 0.85277253, b: 2.6701567, a: 1}
-  team2Color: {r: 2.0000005, g: 0, b: 0, a: 1}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!54 &-6223013188329183673
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -828,6 +806,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51950b7550049374cb6f88435ba60dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bodyRenderer: {fileID: 4036209667221095899}
+  railgunRenderer: {fileID: 2121862129024587516}
+  helmet1Renderer: {fileID: 5921773390245773672}
+  helmet2Renderer: {fileID: 6964367699992882410}
+  helmet3Renderer: {fileID: 2775138669996478016}
+  helmet4Renderer: {fileID: 2206203198605747078}
+  team1Color: {r: 0.5568628, g: 0.5568628, b: 2, a: 1}
+  team2Color: {r: 2, g: 0, b: 0, a: 1}
+  defaultColor: {r: 2, g: 2, b: 2, a: 1}
 --- !u!1 &3164200158125769777
 GameObject:
   m_ObjectHideFlags: 0
