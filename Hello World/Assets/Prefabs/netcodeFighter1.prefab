@@ -317,6 +317,7 @@ GameObject:
   - component: {fileID: 530614559183772392}
   - component: {fileID: 7527392046195286211}
   - component: {fileID: 336782540093344933}
+  - component: {fileID: 1908996016493376549}
   m_Layer: 0
   m_Name: First Person Camera
   m_TagString: Untagged
@@ -442,6 +443,14 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!81 &1908996016493376549
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530614559183772394}
+  m_Enabled: 1
 --- !u!1 &530614559549839873
 GameObject:
   m_ObjectHideFlags: 0
@@ -1297,6 +1306,23 @@ MonoBehaviour:
   weapon1ShotMaxCooldown: 1
   wallPlaceMaxCooldown: 10
   megaLaserMaxCooldown: 20
+  LandingAudioClip: {fileID: 8300000, guid: ac962214b2b30124cadf43078f939ca8, type: 3}
+  LaserAudioClip: {fileID: 8300000, guid: 80bc28ba2089e4840be0c5fb8f67bd6a, type: 3}
+  MegaLaserAudioClip: {fileID: 8300000, guid: 2fcbd747149a79644940dee16fe26109, type: 3}
+  WallAudioClip: {fileID: 8300000, guid: 86c24b6f15eb1af46996ef66c066f9bc, type: 3}
+  FootstepAudioClips:
+  - {fileID: 8300000, guid: f6bf387160acaff4b8f92cc37f8ce1f8, type: 3}
+  - {fileID: 8300000, guid: 5e08b60948c553e4392c0158522a8469, type: 3}
+  - {fileID: 8300000, guid: 015308fa71802344ebc312654562f75e, type: 3}
+  - {fileID: 8300000, guid: 9dfaed8e3a6f708418ad1ca7c8efc8cf, type: 3}
+  - {fileID: 8300000, guid: c54e0096998cf6c42825e6f55d059ee5, type: 3}
+  - {fileID: 8300000, guid: 787376e8674c51340a65878fb3b37fb6, type: 3}
+  - {fileID: 8300000, guid: 69e951b716472a14b86112ae2c934534, type: 3}
+  - {fileID: 8300000, guid: 144fd90815b78984d8485ef9ef4e6b7e, type: 3}
+  - {fileID: 8300000, guid: 3722750df901aed40b15cbd55d52dfe5, type: 3}
+  - {fileID: 8300000, guid: 5d32a809e8c9e7042ac2ae68456389b8, type: 3}
+  AudioVolume: 0.5
+  FootstepAudioVolume: 0.12
   wallCooldownUI: {fileID: 3835062953974062865}
   megaLaserCooldownUI: {fileID: 5025011941879757701}
   playerNumber: 0
