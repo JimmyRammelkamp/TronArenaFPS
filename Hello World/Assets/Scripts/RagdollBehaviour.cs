@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class RagdollBehaviour : MonoBehaviour
+public class RagdollBehaviour : NetworkBehaviour
 {
     //Mesh Renderers
     [Header("Default Meshes")]
@@ -24,8 +25,11 @@ public class RagdollBehaviour : MonoBehaviour
     [ColorUsage(true, true)]
     public Color defaultColor = Color.white;
 
-    private int teamSelection = 0;
-    private int helmetSelection = 0;
+    //private int teamSelection = 0;
+    //private int helmetSelection = 0;
+
+    public NetworkVariable<int> teamSelection = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> helmetSelection = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +39,7 @@ public class RagdollBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (teamSelection == 1)
+        if (teamSelection.Value == 1)
         {
             bodyRenderer.material.SetColor("_EmissionColor", team1Color);
             railgunRenderer.material.SetColor("_EmissionColor", team1Color);
@@ -45,7 +49,7 @@ public class RagdollBehaviour : MonoBehaviour
             helmet4Renderer.material.SetColor("_EmissionColor", team1Color);
 
         }
-        else if (teamSelection == 2)
+        else if (teamSelection.Value == 2)
         {
             bodyRenderer.material.SetColor("_EmissionColor", team2Color);
             railgunRenderer.material.SetColor("_EmissionColor", team2Color);
@@ -64,28 +68,28 @@ public class RagdollBehaviour : MonoBehaviour
             helmet4Renderer.material.SetColor("_EmissionColor", defaultColor);
         }
 
-        if(helmetSelection == 1)
+        if(helmetSelection.Value == 1)
         {
             helmet1Renderer.gameObject.SetActive(true);
             helmet2Renderer.gameObject.SetActive(false);
             helmet3Renderer.gameObject.SetActive(false);
             helmet4Renderer.gameObject.SetActive(false);
         }
-        else if (helmetSelection == 2)
+        else if (helmetSelection.Value == 2)
         {
             helmet1Renderer.gameObject.SetActive(false);
             helmet2Renderer.gameObject.SetActive(true);
             helmet3Renderer.gameObject.SetActive(false);
             helmet4Renderer.gameObject.SetActive(false);
         }
-        else if (helmetSelection == 3)
+        else if (helmetSelection.Value == 3)
         {
             helmet1Renderer.gameObject.SetActive(false);
             helmet2Renderer.gameObject.SetActive(false);
             helmet3Renderer.gameObject.SetActive(true);
             helmet4Renderer.gameObject.SetActive(false);
         }
-        else if (helmetSelection == 4)
+        else if (helmetSelection.Value == 4)
         {
             helmet1Renderer.gameObject.SetActive(false);
             helmet2Renderer.gameObject.SetActive(false);
@@ -101,11 +105,11 @@ public class RagdollBehaviour : MonoBehaviour
 
     public void SetTeam(int team)
     {
-        teamSelection = team;
+        teamSelection.Value = team;
     }
 
     public void SetHelmet(int helmet)
     {
-        helmetSelection = helmet;
+        helmetSelection.Value = helmet;
     }
 }
