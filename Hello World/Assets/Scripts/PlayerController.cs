@@ -31,14 +31,18 @@ public class PlayerController : NetworkBehaviour
     public float weapon1ShotDelay = .5f;
     public float weapon1ShotMaxCooldown = 1f;
     public float wallPlaceMaxCooldown = 10f;
+    public float megaLaserMaxCooldown = 20f;
 
     private float weapon1ShotCooldown = 1f;
     private float wallPlaceCooldown = 1f;
+    private float megaLaserCooldown = 0f;
 
     private bool wallPreview = false;
+    private bool megaLaserPreview = false;
 
     [Header("UI Objects")]
-    public WallCooldownUI wallCooldown;
+    public CooldownUI wallCooldownUI;
+    public CooldownUI megaLaserCooldownUI;
 
     // Unity Character controller
     CharacterController characterController;
@@ -84,6 +88,14 @@ public class PlayerController : NetworkBehaviour
     private Transform risingWall;
     [SerializeField]
     private GameObject wallPreviewObj;
+
+    // Mega Laser prefabs
+    [SerializeField]
+    private Transform megaLaserTeam1;
+    [SerializeField]
+    private Transform megaLaserTeam2;
+    [SerializeField]
+    private GameObject megaLaserPreviewObj;
 
     // Laser line renderer prefabs
     [SerializeField]
@@ -225,7 +237,23 @@ public class PlayerController : NetworkBehaviour
                 weapon1ShotCooldown = weapon1ShotMaxCooldown;
             }
 
-            
+            if (Input.GetKeyDown(KeyCode.R) && megaLaserCooldown <= 0)
+            {
+                megaLaserPreview = true;
+            }
+            if (Input.GetKeyUp(KeyCode.R) && megaLaserCooldown <= 0)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(fpcam.position, fpcam.forward, out hit, Mathf.Infinity))
+                {
+                    MegaLaserSpawnServerRpc(hit.point, team.Value);
+                    megaLaserCooldown = megaLaserMaxCooldown;
+                }
+                megaLaserPreview = false;
+                Debug.Log("Spawned new laser");
+            }
+
+
 
             // If Wall Preview Mode is active, Check if looking at floor, if looking at floor raycast again to set hit point and assign position of preview mesh
             if (wallPreview)
@@ -253,10 +281,30 @@ public class PlayerController : NetworkBehaviour
             {
                 wallPreviewObj.SetActive(false);
             }
+
+            if (megaLaserPreview)
+            {
+                megaLaserPreviewObj.SetActive(true);
+                megaLaserPreviewObj.transform.position = transform.position + transform.up * 4 + transform.forward * 5;
+                megaLaserPreviewObj.transform.rotation = transform.rotation;
+
+                RaycastHit hit;
+                if (Physics.Raycast(fpcam.position, fpcam.forward, out hit, Mathf.Infinity))
+                {
+                    megaLaserPreviewObj.transform.LookAt(hit.point);
+                }
+
+                megaLaserPreviewObj.transform.Rotate(90, 0, 0);
+            }
+            else
+            {
+                megaLaserPreviewObj.SetActive(false);
+            }
             
 
             reduceCooldowns();
-            wallCooldown.UpdateCooldownUI((wallPlaceMaxCooldown - wallPlaceCooldown) / wallPlaceMaxCooldown);
+            wallCooldownUI.UpdateCooldownUI((wallPlaceMaxCooldown - wallPlaceCooldown) / wallPlaceMaxCooldown);
+            megaLaserCooldownUI.UpdateCooldownUI((megaLaserMaxCooldown - megaLaserCooldown) / megaLaserMaxCooldown);
 
             //Movement Input
             float forward = Input.GetAxisRaw("Vertical");
@@ -424,6 +472,10 @@ public class PlayerController : NetworkBehaviour
         {
             wallPlaceCooldown -= 1f * Time.deltaTime;
         }
+        if(megaLaserCooldown > 0)
+        {
+            megaLaserCooldown -= 1f * Time.deltaTime;
+        }
     }
     
     public void Hit()
@@ -547,6 +599,28 @@ public class PlayerController : NetworkBehaviour
         ragObj.GetComponent<RagdollBehaviour>().SetHelmet(helmet);
         ragObj.GetComponent<RagdollBehaviour>().SetTeam(team);
         ragObj.GetComponent<NetworkObject>().Spawn(true);
+    }
+
+    [ServerRpc]
+    void MegaLaserSpawnServerRpc(Vector3 position, int team)
+    {
+        if(team == 2)
+        {
+            var mlObj = Instantiate(megaLaserTeam2);
+            mlObj.position = transform.position + transform.up * 4 + transform.forward * 5;
+            mlObj.LookAt(position);
+            mlObj.Rotate(90, 0, 0);
+            mlObj.GetComponent<NetworkObject>().Spawn(true);
+        }
+        else
+        {
+            var mlObj = Instantiate(megaLaserTeam1);
+            mlObj.position = transform.position + transform.up * 4 + transform.forward * 5;
+            mlObj.LookAt(position);
+            mlObj.Rotate(90, 0, 0);
+            mlObj.GetComponent<NetworkObject>().Spawn(true);
+        }
+        
     }
 
     public override void OnNetworkSpawn()
