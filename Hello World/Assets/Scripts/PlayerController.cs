@@ -40,6 +40,15 @@ public class PlayerController : NetworkBehaviour
     private bool wallPreview = false;
     private bool megaLaserPreview = false;
 
+    [Header("Player Sounds")]
+    public AudioClip LandingAudioClip;
+    public AudioClip LaserAudioClip;
+    public AudioClip MegaLaserAudioClip;
+    public AudioClip WallAudioClip;
+    public AudioClip[] FootstepAudioClips;
+    [Range(0, 1)] public float AudioVolume = 0.5f;
+    [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
+
     [Header("UI Objects")]
     public CooldownUI wallCooldownUI;
     public CooldownUI megaLaserCooldownUI;
@@ -536,8 +545,8 @@ public class PlayerController : NetworkBehaviour
             laserObj.Rotate(90, 0, 90);
             laserObj.GetComponent<NetworkObject>().Spawn(true);
         }
-        
-        
+
+        AudioSource.PlayClipAtPoint(LaserAudioClip, Railgun.transform.position - 0.5f * Railgun.transform.up, AudioVolume);
 
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
@@ -587,6 +596,8 @@ public class PlayerController : NetworkBehaviour
         obj.rotation = transform.rotation;
         obj.Rotate(-90, 0, 0);
         obj.GetComponent<NetworkObject>().Spawn(true);
+
+        AudioSource.PlayClipAtPoint(WallAudioClip, position, AudioVolume);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -620,7 +631,7 @@ public class PlayerController : NetworkBehaviour
             mlObj.Rotate(90, 0, 0);
             mlObj.GetComponent<NetworkObject>().Spawn(true);
         }
-        
+        AudioSource.PlayClipAtPoint(MegaLaserAudioClip, transform.position + transform.up * 4 + transform.forward * 5, AudioVolume + 0.2f);
     }
 
     public override void OnNetworkSpawn()
@@ -650,6 +661,26 @@ public class PlayerController : NetworkBehaviour
         {
             fpcam.GetComponent<Camera>().enabled = false;
             topcam.enabled = true;
+        }
+    }
+
+    private void OnFootstep(AnimationEvent animationEvent)
+    {
+        if (animationEvent.animatorClipInfo.weight > 0.5f)
+        {
+            if (FootstepAudioClips.Length > 0)
+            {
+                var index = Random.Range(0, FootstepAudioClips.Length);
+                AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(characterController.center), FootstepAudioVolume);
+            }
+        }
+    }
+
+    private void OnLand(AnimationEvent animationEvent)
+    {
+        if (animationEvent.animatorClipInfo.weight > 0.5f)
+        {
+            AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(characterController.center), FootstepAudioVolume);
         }
     }
 }
