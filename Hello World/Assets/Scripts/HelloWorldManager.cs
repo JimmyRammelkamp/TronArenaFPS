@@ -4,12 +4,15 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HelloWorldManager : MonoBehaviour
 {
     [SerializeField] private Text status, message;
+    [SerializeField] private TMP_Text helmetText;
     [SerializeField] private Button buttonHost, buttonPlayClient, buttonServer, buttonShutdown;
     [SerializeField] private InputField IPAddress, port, playerName;
+    [SerializeField] private int helmetNum = 1;
 
 
 
@@ -24,7 +27,6 @@ public class HelloWorldManager : MonoBehaviour
         port.text = PlayerPrefs.GetString("port");
         if (port.text == "") port.text = ((UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport).ConnectionData.Port.ToString();
         playerName.text = PlayerPrefs.GetString("PlayerName");
-        
 
         buttonHost.onClick.AddListener(StartHost);
         buttonPlayClient.onClick.AddListener(StartClient);
@@ -76,6 +78,7 @@ public class HelloWorldManager : MonoBehaviour
         PlayerPrefs.SetString("IPaddress", IPAddress.text);
         PlayerPrefs.SetString("port", port.text);
         PlayerPrefs.SetString("PlayerName", playerName.text);
+        PlayerPrefs.SetInt("Helmet", helmetNum);
     }
 
     private void HandleClientConnected(ulong clientId)
@@ -88,6 +91,7 @@ public class HelloWorldManager : MonoBehaviour
         PlayerPrefs.SetString("IPaddress", IPAddress.text);
         PlayerPrefs.SetString("port", port.text);
         PlayerPrefs.SetString("PlayerName", playerName.text);
+        PlayerPrefs.SetInt("Helmet", helmetNum);
 
         //NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerController>().SetNickname(playerName.text);
     }
@@ -105,7 +109,7 @@ public class HelloWorldManager : MonoBehaviour
 
     void Update()
     {
-
+        helmetText.text = "Helmet " + helmetNum;
     }
 
     [ClientRpc]
@@ -133,8 +137,26 @@ public class HelloWorldManager : MonoBehaviour
         Debug.Log("Wall is at " + wall.getHealth() + " health");
     }
 
+    public void Helmet1()
+    {
+        helmetNum = 1;
+    }
 
-   
+    public void Helmet2()
+    {
+        helmetNum = 2;
+    }
+
+    public void Helmet3()
+    {
+        helmetNum = 3;
+    }
+
+    public void Helmet4()
+    {
+        helmetNum = 4;
+    }
+
 
     //private void Start()
     //{
