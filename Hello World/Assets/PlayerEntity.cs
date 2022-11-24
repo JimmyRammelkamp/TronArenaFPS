@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class PlayerEntity : NetworkBehaviour
 {
+    // Is Ready Boolean
+    public NetworkVariable<bool> isReady = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
     //Network Variables
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<int> helmetSelection = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -68,12 +71,9 @@ public class PlayerEntity : NetworkBehaviour
                 spawnButton.gameObject.SetActive(false);
             }
         }
-        
-        
-            
     }
 
-    [ServerRpc]
+    [ServerRpc (RequireOwnership = false)]
     public void PlayerSpawnServerRpc()
     {
         Vector3 spawnPos;
@@ -104,7 +104,6 @@ public class PlayerEntity : NetworkBehaviour
         player.GetComponent<PlayerController>().helmetSelection.Value = helmetSelection.Value;
 
         activePlayer.Value = true;
-
     }
 
     public override void OnNetworkSpawn()

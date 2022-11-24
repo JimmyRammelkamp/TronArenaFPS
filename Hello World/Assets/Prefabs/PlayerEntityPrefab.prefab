@@ -196,7 +196,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!114 &517681295326323959
 MonoBehaviour:
@@ -284,6 +284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be028229dd142e499299f5d289b11af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isReady:
+    m_InternalValue: 0
   playerName:
     m_InternalValue:
       utf8LengthInBytes: 0
@@ -426,6 +428,8 @@ MonoBehaviour:
   team:
     m_InternalValue: 0
   clientId:
+    m_InternalValue: 0
+  activePlayer:
     m_InternalValue: 0
   playerprefab: {fileID: 2352759974580941570, guid: b47926caccb5e9948adf4c31e68df255, type: 3}
   button: {fileID: 0}

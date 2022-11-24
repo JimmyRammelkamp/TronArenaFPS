@@ -14,7 +14,7 @@ public class HelloWorldManager : MonoBehaviour
     [SerializeField] private InputField IPAddress, port, playerName;
     [SerializeField] private int helmetNum = 1;
 
-
+    [SerializeField] private Button team1, team2, ready, leave, startGame;
 
     private void Start()
     {
@@ -32,6 +32,8 @@ public class HelloWorldManager : MonoBehaviour
         buttonPlayClient.onClick.AddListener(StartClient);
         buttonServer.onClick.AddListener(StartServer);
         buttonShutdown.onClick.AddListener(Shutdown);
+        leave.onClick.AddListener(Shutdown);
+        startGame.onClick.AddListener(StartGameServerRpc);
 
         NetworkManager.Singleton.OnServerStarted += HandleSeverStarted;
         NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
@@ -44,6 +46,7 @@ public class HelloWorldManager : MonoBehaviour
         if (!Int16.TryParse(port.text, out p)) return;
         ((UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport).SetConnectionData(IPAddress.text, (ushort)p);
         NetworkManager.Singleton.StartHost();
+        startGame.gameObject.SetActive(true);
     }
 
     public void StartClient()
@@ -52,6 +55,7 @@ public class HelloWorldManager : MonoBehaviour
         if (!Int16.TryParse(port.text, out p)) return;
         ((UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport).SetConnectionData(IPAddress.text, (ushort)p);
         NetworkManager.Singleton.StartClient();
+        startGame.gameObject.SetActive(false);
     }
 
     public void StartServer()
@@ -60,6 +64,7 @@ public class HelloWorldManager : MonoBehaviour
         if (!Int16.TryParse(port.text, out p)) return;
         ((UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport).SetConnectionData(IPAddress.text, (ushort)p);
         NetworkManager.Singleton.StartServer();
+        startGame.gameObject.SetActive(true);
     }
 
     public void Shutdown()
@@ -67,6 +72,15 @@ public class HelloWorldManager : MonoBehaviour
         NetworkManager.Singleton.Shutdown();
         status.text = "NOT CONNECTED";
         HandleUI(false);
+    }
+
+    [ServerRpc]
+    public void StartGameServerRpc()
+    {
+        foreach (PlayerEntity _playerEntity in FindObjectsOfType<PlayerEntity>())
+        {
+            _playerEntity.PlayerSpawnServerRpc();
+        }
     }
 
     private void HandleSeverStarted()
