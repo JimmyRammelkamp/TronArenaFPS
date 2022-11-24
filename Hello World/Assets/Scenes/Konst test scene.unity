@@ -20013,6 +20013,16 @@ MonoBehaviour:
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 2170305791039874302, guid: 1e371cd5a4648c44696c8c924af50b6a, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 2170305791039874302, guid: 248c1092cf759e14285f612d6651ee3e, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -20057,6 +20067,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 2106298035}
   message: {fileID: 726354368}
+  helmetText: {fileID: 0}
   buttonHost: {fileID: 1098880047}
   buttonPlayClient: {fileID: 1730527753}
   buttonServer: {fileID: 1971306338}
@@ -20064,6 +20075,7 @@ MonoBehaviour:
   IPAddress: {fileID: 1725821467}
   port: {fileID: 589863980}
   playerName: {fileID: 55036115}
+  helmetNum: 1
 --- !u!114 &1129699679
 MonoBehaviour:
   m_ObjectHideFlags: 0
