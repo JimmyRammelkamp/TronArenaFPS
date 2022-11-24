@@ -41,7 +41,6 @@ public class DeathmatchManager : NetworkBehaviour
                 team1Win.Value = true;
                 matchOver.Value = true;
                 Debug.Log("Team 1 has Won");
-                team1WinMessage.SetActive(true);
                 Invoke("MatchReset",4);
 
             }
@@ -50,13 +49,26 @@ public class DeathmatchManager : NetworkBehaviour
                 team2Win.Value = true;
                 matchOver.Value = true;
                 Debug.Log("Team 2 has Won");
-                team2WinMessage.SetActive(true);
                 Invoke("MatchReset", 4);
             }
         }
-       
-        team1KillText.SetText("Team 1 Kills: " + team1KillCount.Value);
-        team2KillText.SetText("Team 2 Kills: " + team2KillCount.Value);
+
+        if (team1Win.Value == true & team2Win.Value == false)
+        {
+            team1WinMessage.SetActive(true);
+        }
+        else if (team2Win.Value == true & team1Win.Value == false)
+        {
+            team2WinMessage.SetActive(true);
+        }
+        else
+        {
+            team1WinMessage.SetActive(false);
+            team2WinMessage.SetActive(false);
+
+        }
+        team1KillText.SetText(team1KillCount.Value.ToString());
+        team2KillText.SetText(team2KillCount.Value.ToString());
         
     }
 
@@ -67,8 +79,12 @@ public class DeathmatchManager : NetworkBehaviour
         team1Win.Value = false;
         team2Win.Value = false;
         matchOver.Value = false;
-        team1WinMessage.SetActive(false);
-        team2WinMessage.SetActive(false);
+
+        foreach(PlayerController player in FindObjectsOfType<PlayerController>())
+        {
+            player.DestroyServerRpc();
+        }
+
 
     }
 
