@@ -37,7 +37,7 @@ public class HelloWorldManager : MonoBehaviour
         buttonShutdown.onClick.AddListener(Shutdown);
 
         //  Lobby Buttons
-        //startGameButton.onClick.AddListener(OnStartGame);
+        startGameButton.onClick.AddListener(OnStartGame);
 
         NetworkManager.Singleton.OnServerStarted += HandleSeverStarted;
         NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
