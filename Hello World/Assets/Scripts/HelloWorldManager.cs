@@ -137,24 +137,9 @@ public class HelloWorldManager : MonoBehaviour
         Debug.Log("Wall is at " + wall.getHealth() + " health");
     }
 
-    public void Helmet1()
+    public void HelmetSelect(int _helmetNum)
     {
-        helmetNum = 1;
-    }
-
-    public void Helmet2()
-    {
-        helmetNum = 2;
-    }
-
-    public void Helmet3()
-    {
-        helmetNum = 3;
-    }
-
-    public void Helmet4()
-    {
-        helmetNum = 4;
+        helmetNum = _helmetNum;
     }
 
 
