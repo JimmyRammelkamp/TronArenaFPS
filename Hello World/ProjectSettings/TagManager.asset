@@ -8,6 +8,7 @@ TagManager:
   - Team2Spawn
   - WallPrefab
   - Floor
+  - LobbyUI
   layers:
   - Default
   - TransparentFX

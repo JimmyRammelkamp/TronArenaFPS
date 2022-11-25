@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class PlayerEntity : NetworkBehaviour
 {
+    public NetworkVariable<bool> hasGameStarted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
     //Network Variables
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<int> helmetSelection = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -36,7 +38,6 @@ public class PlayerEntity : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         if (IsOwner)
         {
             if (Input.GetKeyDown(KeyCode.M))
@@ -58,22 +59,23 @@ public class PlayerEntity : NetworkBehaviour
                 PlayerSpawnServerRpc();
             }
 
+            if (hasGameStarted.Value == true)
+            {
+                GameObject.FindGameObjectWithTag("LobbyUI").SetActive(false);
 
-            if (activePlayer.Value == false)
-            {
-                spawnButton.gameObject.SetActive(true);
-            }
-            else if(activePlayer.Value == true)
-            {
-                spawnButton.gameObject.SetActive(false);
+                if (activePlayer.Value == false)
+                {
+                    spawnButton.gameObject.SetActive(true);
+                }
+                else if (activePlayer.Value == true)
+                {
+                    spawnButton.gameObject.SetActive(false);
+                }
             }
         }
-        
-        
-            
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void PlayerSpawnServerRpc()
     {
         Vector3 spawnPos;
@@ -130,6 +132,4 @@ public class PlayerEntity : NetworkBehaviour
             }
         }
     }
-
-
 }
