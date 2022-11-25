@@ -14,7 +14,9 @@ public class HelloWorldManager : MonoBehaviour
     [SerializeField] private InputField IPAddress, port, playerName;
     [SerializeField] private int helmetNum = 1;
 
-    [SerializeField] private Button startGameButton;
+    [SerializeField] private GameObject lobbyUI;
+    [SerializeField] private GameObject menuUI;
+    [SerializeField] private Button startGameButton, helmet1Btn;
 
 
     private void Start()
@@ -35,7 +37,7 @@ public class HelloWorldManager : MonoBehaviour
         buttonShutdown.onClick.AddListener(Shutdown);
 
         //  Lobby Buttons
-        startGameButton.onClick.AddListener(OnStartGame);
+        //startGameButton.onClick.AddListener(OnStartGame);
 
         NetworkManager.Singleton.OnServerStarted += HandleSeverStarted;
         NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
@@ -48,7 +50,6 @@ public class HelloWorldManager : MonoBehaviour
         if (!Int16.TryParse(port.text, out p)) return;
         ((UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport).SetConnectionData(IPAddress.text, (ushort)p);
         NetworkManager.Singleton.StartHost();
-        startGameButton.gameObject.SetActive(true);
     }
 
     public void StartClient()
@@ -57,7 +58,6 @@ public class HelloWorldManager : MonoBehaviour
         if (!Int16.TryParse(port.text, out p)) return;
         ((UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport).SetConnectionData(IPAddress.text, (ushort)p);
         NetworkManager.Singleton.StartClient();
-        startGameButton.gameObject.SetActive(false);
     }
 
     public void StartServer()
@@ -66,7 +66,6 @@ public class HelloWorldManager : MonoBehaviour
         if (!Int16.TryParse(port.text, out p)) return;
         ((UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport).SetConnectionData(IPAddress.text, (ushort)p);
         NetworkManager.Singleton.StartServer();
-        startGameButton.gameObject.SetActive(true);
     }
 
     public void Shutdown()
@@ -74,6 +73,7 @@ public class HelloWorldManager : MonoBehaviour
         NetworkManager.Singleton.Shutdown();
         status.text = "NOT CONNECTED";
         HandleUI(false);
+        HandleLobbyUI(false);
     }
 
     [ServerRpc]
@@ -90,7 +90,10 @@ public class HelloWorldManager : MonoBehaviour
     {
         status.text = NetworkManager.Singleton.IsHost ? "Connected as Host" : "Connected as Server";
 
+        startGameButton.gameObject.SetActive(NetworkManager.Singleton.IsHost);
+
         HandleUI(true);
+        HandleLobbyUI(true);
 
         PlayerPrefs.SetString("IPaddress", IPAddress.text);
         PlayerPrefs.SetString("port", port.text);
@@ -102,8 +105,10 @@ public class HelloWorldManager : MonoBehaviour
     {
         status.text = NetworkManager.Singleton.IsHost ? "Connected as Host" : "Connected as Client";
 
-        HandleUI(true);
+        startGameButton.gameObject.SetActive(NetworkManager.Singleton.IsHost);
 
+        HandleUI(true);
+        HandleLobbyUI(true);
 
         PlayerPrefs.SetString("IPaddress", IPAddress.text);
         PlayerPrefs.SetString("port", port.text);
@@ -111,6 +116,12 @@ public class HelloWorldManager : MonoBehaviour
         PlayerPrefs.SetInt("Helmet", helmetNum);
 
         //NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerController>().SetNickname(playerName.text);
+    }
+
+    private void HandleLobbyUI(bool isConnected)
+    {
+        lobbyUI.SetActive(isConnected);
+        menuUI.SetActive(!isConnected);
     }
 
     private void HandleUI(bool isConnected)
@@ -122,11 +133,15 @@ public class HelloWorldManager : MonoBehaviour
         port.gameObject.SetActive(!isConnected);
         playerName.gameObject.SetActive(!isConnected);
         buttonShutdown.gameObject.SetActive(isConnected);
+        
     }
 
     void Update()
     {
         helmetText.text = "Helmet " + helmetNum;
+
+        if (NetworkManager.Singleton.IsHost) startGameButton.gameObject.SetActive(true);
+        else startGameButton.gameObject.SetActive(false);
     }
 
     [ClientRpc]
