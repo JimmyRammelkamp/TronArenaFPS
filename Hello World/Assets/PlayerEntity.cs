@@ -26,10 +26,15 @@ public class PlayerEntity : NetworkBehaviour
 
     public Button spawnButton;
 
+    [SerializeField] private Button team1Button, team2Button;
+
     // Start is called before the first frame update
     void Start()
     {
-        if(IsOwner)
+        team1Button = GameObject.FindGameObjectWithTag("Team1Button").GetComponent<Button>();
+        team2Button = GameObject.FindGameObjectWithTag("Team2Button").GetComponent<Button>();
+
+        if (IsOwner)
         {
             
         }
@@ -40,6 +45,9 @@ public class PlayerEntity : NetworkBehaviour
     {
         if (IsOwner)
         {
+            team1Button.onClick.AddListener(Team1Setter);
+            team2Button.onClick.AddListener(Team2Setter);
+
             if (Input.GetKeyDown(KeyCode.M))
             {
                 if (Cursor.visible == false)
@@ -73,6 +81,15 @@ public class PlayerEntity : NetworkBehaviour
                 }
             }
         }
+    }
+    
+    private void Team1Setter()
+    {
+        team.Value = 1;
+    }
+    private void Team2Setter()
+    {
+        team.Value = 2;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -121,7 +138,7 @@ public class PlayerEntity : NetworkBehaviour
 
             clientId.Value = (int)OwnerClientId;
 
-            if (clientId.Value % 2 == 0)
+            /*if (clientId.Value % 2 == 0)
             {
                 team.Value = 2;
 
@@ -129,7 +146,7 @@ public class PlayerEntity : NetworkBehaviour
             else
             {
                 team.Value = 1;
-            }
+            }*/
         }
     }
 }

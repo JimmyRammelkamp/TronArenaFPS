@@ -9,6 +9,8 @@ TagManager:
   - WallPrefab
   - Floor
   - LobbyUI
+  - Team1Button
+  - Team2Button
   layers:
   - Default
   - TransparentFX
