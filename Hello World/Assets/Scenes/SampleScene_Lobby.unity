@@ -8726,9 +8726,10 @@ GameObject:
   - component: {fileID: 1974043570}
   - component: {fileID: 1974043572}
   - component: {fileID: 1974043571}
+  - component: {fileID: 1974043573}
   m_Layer: 5
   m_Name: LobbyPanel
-  m_TagString: Untagged
+  m_TagString: LobbyUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8795,6 +8796,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1974043569}
   m_CullTransparentMesh: 1
+--- !u!114 &1974043573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974043569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fd5126cc621ea148a0d268691ec2d28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lobbyPlayerCards: []
+  startGameButton: {fileID: 0}
 --- !u!1 &1988106217
 GameObject:
   m_ObjectHideFlags: 0

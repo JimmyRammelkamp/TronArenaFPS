@@ -27,6 +27,7 @@ public class PlayerEntity : NetworkBehaviour
     public Button spawnButton;
 
     [SerializeField] private Button team1Button, team2Button;
+    
 
     // Start is called before the first frame update
     void Start()

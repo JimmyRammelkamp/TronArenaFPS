@@ -37,7 +37,7 @@ public class HelloWorldManager : MonoBehaviour
         buttonShutdown.onClick.AddListener(Shutdown);
 
         //  Lobby Buttons
-        startGameButton.onClick.AddListener(OnStartGame);
+        startGameButton.onClick.AddListener(OnStartGameServerRpc);
 
         NetworkManager.Singleton.OnServerStarted += HandleSeverStarted;
         NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
@@ -77,7 +77,7 @@ public class HelloWorldManager : MonoBehaviour
     }
 
     [ServerRpc]
-    public void OnStartGame()
+    public void OnStartGameServerRpc()
     {
         foreach(PlayerEntity _playerEntity in FindObjectsOfType<PlayerEntity>())
         {
