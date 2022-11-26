@@ -53,10 +53,16 @@ public class PlayerEntity : NetworkBehaviour
                 }
             }
 
-            if(Input.GetKeyDown(KeyCode.N))
-            {
-                PlayerSpawnServerRpc();
-            }
+            //Debug Player Spawn Key
+            //if(Input.GetKeyDown(KeyCode.N))
+            //{
+            //    PlayerSpawnServerRpc();
+            //}
+
+            if (Input.GetKeyDown(KeyCode.Alpha1)) helmetSelection.Value = 1;
+            if (Input.GetKeyDown(KeyCode.Alpha2)) helmetSelection.Value = 2;
+            if (Input.GetKeyDown(KeyCode.Alpha3)) helmetSelection.Value = 3;
+            if (Input.GetKeyDown(KeyCode.Alpha4)) helmetSelection.Value = 4;
 
 
             if (activePlayer.Value == false)
