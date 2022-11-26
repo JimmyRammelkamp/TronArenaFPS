@@ -1308,7 +1308,7 @@ MonoBehaviour:
   megaLaserMaxCooldown: 20
   LandingAudioClip: {fileID: 8300000, guid: ac962214b2b30124cadf43078f939ca8, type: 3}
   LaserAudioClip: {fileID: 8300000, guid: 80bc28ba2089e4840be0c5fb8f67bd6a, type: 3}
-  MegaLaserAudioClip: {fileID: 8300000, guid: 2fcbd747149a79644940dee16fe26109, type: 3}
+  MegaLaserAudioClip: {fileID: 8300000, guid: d66fe37b9cf6d924cb3628b8ca976597, type: 3}
   WallAudioClip: {fileID: 8300000, guid: 86c24b6f15eb1af46996ef66c066f9bc, type: 3}
   FootstepAudioClips:
   - {fileID: 8300000, guid: f6bf387160acaff4b8f92cc37f8ce1f8, type: 3}
