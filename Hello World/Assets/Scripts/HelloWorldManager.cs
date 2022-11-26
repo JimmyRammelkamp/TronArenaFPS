@@ -15,8 +15,8 @@ public class HelloWorldManager : MonoBehaviour
     [SerializeField] private int helmetNum = 1;
 
     [SerializeField] private GameObject lobbyUI;
-    [SerializeField] private GameObject menuUI;
-    [SerializeField] private Button startGameButton, helmet1Btn;
+    [SerializeField] private Button H1, H2, H3, H4;
+    [SerializeField] private Button startGameButton;
 
 
     private void Start()
@@ -121,7 +121,6 @@ public class HelloWorldManager : MonoBehaviour
     private void HandleLobbyUI(bool isConnected)
     {
         lobbyUI.SetActive(isConnected);
-        menuUI.SetActive(!isConnected);
     }
 
     private void HandleUI(bool isConnected)
@@ -134,6 +133,11 @@ public class HelloWorldManager : MonoBehaviour
         playerName.gameObject.SetActive(!isConnected);
         buttonShutdown.gameObject.SetActive(isConnected);
         
+        helmetText.gameObject.SetActive(!isConnected);
+        H1.gameObject.SetActive(!isConnected);
+        H2.gameObject.SetActive(!isConnected);
+        H3.gameObject.SetActive(!isConnected);
+        H4.gameObject.SetActive(!isConnected);
     }
 
     void Update()

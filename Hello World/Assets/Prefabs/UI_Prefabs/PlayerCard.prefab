@@ -448,7 +448,8 @@ MonoBehaviour:
   waitingForPlayerPannel: {fileID: 1383827664851328457}
   playerDataPannel: {fileID: 1383827663486135824}
   playerName: {fileID: 1383827665067255717}
-  background: {fileID: 1383827663872399951}
+  helmetNumText: {fileID: 0}
+  helmetNumSlider: {fileID: 0}
   isPlayerReady: {fileID: 1383827664110304649}
 --- !u!114 &2299861591904938388
 MonoBehaviour:

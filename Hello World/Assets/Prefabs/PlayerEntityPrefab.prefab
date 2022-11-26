@@ -248,7 +248,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5204025430040820936}
   - component: {fileID: 5204025430040820937}
-  - component: {fileID: 5204025430040820942}
+  - component: {fileID: 1817809048216462150}
   m_Layer: 0
   m_Name: PlayerEntityPrefab
   m_TagString: Untagged
@@ -284,6 +284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be028229dd142e499299f5d289b11af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasGameStarted:
+    m_InternalValue: 0
   playerName:
     m_InternalValue:
       utf8LengthInBytes: 0
@@ -427,10 +429,14 @@ MonoBehaviour:
     m_InternalValue: 0
   clientId:
     m_InternalValue: 0
+  activePlayer:
+    m_InternalValue: 0
   playerprefab: {fileID: 2352759974580941570, guid: b47926caccb5e9948adf4c31e68df255, type: 3}
   button: {fileID: 0}
   spawnButton: {fileID: 5551770093658050953}
---- !u!114 &5204025430040820942
+  team1Button: {fileID: 0}
+  team2Button: {fileID: 0}
+--- !u!114 &1817809048216462150
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
