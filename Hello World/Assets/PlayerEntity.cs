@@ -97,7 +97,7 @@ public class PlayerEntity : NetworkBehaviour
             spawnRot = new Quaternion(0f, Random.Range(0f, 360f),0f,0f);
         }
 
-        player = Instantiate(playerprefab,spawnPos,spawnRot);
+        player = Instantiate(playerprefab,spawnPos + new Vector3(Random.Range(-5,5),0,Random.Range(-5,5)),spawnRot);
         player.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
         player.GetComponent<PlayerController>().playerName.Value = playerName.Value;
         player.GetComponent<PlayerController>().team.Value = team.Value;
