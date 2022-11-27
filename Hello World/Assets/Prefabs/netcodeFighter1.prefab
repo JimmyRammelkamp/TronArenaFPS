@@ -1293,8 +1293,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47dbe39b57546f3429a3af7be008fa6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnSpeed: 600
-  tiltSpeed: 270
+  turnSpeed: 4
+  tiltSpeed: 4
   walkSpeed: 7
   sprintSpeed: 12
   gravity: 30

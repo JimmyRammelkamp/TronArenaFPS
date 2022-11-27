@@ -8,10 +8,14 @@ using TMPro;
 public class PlayerController : NetworkBehaviour
 {
     [Header("Movement Variables")]
-    public float turnSpeed = 180;
-    public float tiltSpeed = 180;
+    public float turnSpeed = 5;
+    public float tiltSpeed = 5;
     public float walkSpeed = 5;
     public float sprintSpeed = 10;
+
+    //camera rotation
+    float rotx;
+    float roty;
 
     [Header("Gravity")]
     public float gravity = 9.81f;
@@ -325,12 +329,15 @@ public class PlayerController : NetworkBehaviour
             animator.SetFloat(animIDMotionZ, forward, 1f, Time.deltaTime * 10f);
             animator.SetFloat(animIDMotionX, right, 1f, Time.deltaTime * 10f);
 
-            //camera rotation
-            transform.Rotate(new Vector3(0, turn * turnSpeed * Time.deltaTime, 0));
-            if (fpcam != null) fpcam.Rotate(new Vector3(-tilt * tiltSpeed * Time.deltaTime, 0));
-            //camera rotation lock doesnt work
-            //fpcam.transform.eulerAngles = new Vector3( Mathf.Clamp(fpcam.transform.rotation.x,0,180), fpcam.transform.eulerAngles.y);
 
+
+            //camera rotation
+            rotx += turn * turnSpeed;
+            roty += tilt * tiltSpeed;
+            roty = Mathf.Clamp(roty, -90f, 90f);
+            transform.rotation = Quaternion.Euler(0f, rotx, 0f);
+            fpcam.rotation = Quaternion.Euler(-roty, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+          
 
             // Move player when grounded
             if (characterController.isGrounded)
