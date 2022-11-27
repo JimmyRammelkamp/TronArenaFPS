@@ -5,92 +5,46 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-// code from tutorial - https://www.youtube.com/watch?v=sBR0oJJjx6Q and https://www.youtube.com/watch?v=PnQutPyMZhI
-
 public class LobbyUI : NetworkBehaviour
 {
-    [SerializeField] private LobbyPlayerCard[] lobbyPlayerCards;
-    [SerializeField] private Button startGameButton;
+    [SerializeField] private LobbyPlayerCard[] lobbyPlayerCards = new LobbyPlayerCard[8];
+    public PlayerEntity[] playerEntities;
 
-    //network variables
-    [SerializeField] private NetworkList<LobbyPlayerState> lobbyPlayers;
+    Color team1Colour, team2Colour;
 
-    private void Awake()
+    private void Start()
     {
-        lobbyPlayers = new NetworkList<LobbyPlayerState>();
+        team1Colour = Color.blue;
+        team2Colour = Color.red;
     }
 
-    public override void OnNetworkSpawn()
+    private void Update()
     {
-        if (IsClient)
+        playerEntities = FindObjectsOfType<PlayerEntity>();
+
+        for (int i = 0; i < playerEntities.Length; i++)
         {
-            lobbyPlayers.OnListChanged += HandleLobbyPlayerStateChange;
+            lobbyPlayerCards[i].playerEntityOBJ = playerEntities[i].gameObject;
+
+            lobbyPlayerCards[i].waitingForPlayerPannel.SetActive(false);
+            lobbyPlayerCards[i].playerDataPannel.SetActive(true);
+
+            lobbyPlayerCards[i].playerName.text = playerEntities[i].playerName.Value.ToString();
+            if (playerEntities[i].team.Value == 1) lobbyPlayerCards[i].playerCardBackground.color = team1Colour;
+            if (playerEntities[i].team.Value == 2) lobbyPlayerCards[i].playerCardBackground.color = team2Colour;
+
         }
 
-        if (IsServer)
+        foreach (LobbyPlayerCard playerCards in lobbyPlayerCards)
         {
-            startGameButton.gameObject.SetActive(true);
-
-            NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
-            NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnected;
-
-            foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
+            if (playerCards.playerEntityOBJ == null)
             {
-                HandleClientConnected(client.ClientId);
+                playerCards.waitingForPlayerPannel.SetActive(true);
+                playerCards.playerDataPannel.SetActive(false);
+
+                playerCards.playerName.text = "Player Name";
+                playerCards.playerCardBackground.color = Color.black;
             }
         }
-    }
-
-    public override void OnDestroy()
-    {
-        base.OnDestroy();
-        
-        lobbyPlayers.OnListChanged -= HandleLobbyPlayerStateChange;
-
-        if (NetworkManager.Singleton)
-        {
-            NetworkManager.Singleton.OnClientConnectedCallback -= HandleClientConnected;
-            NetworkManager.Singleton.OnClientDisconnectCallback -= HandleClientDisconnected;
-        }
-    }
-
-    private bool IsEveryoneReady()
-    {
-        if (lobbyPlayers.Count < 4)
-        {
-            return false;
-        }
-
-        foreach (var player in lobbyPlayers)
-        {
-            if (!player.IsReady)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private void HandleClientConnected(ulong clientID)
-    {
-
-    }
-
-    private void HandleClientDisconnected(ulong clientID)
-    {
-        for (int i = 0; i < lobbyPlayers.Count; i++)
-        {
-            if (lobbyPlayers[i].ClientID == clientID)
-            {
-                lobbyPlayers.RemoveAt(i);
-                break;
-            }
-        }
-    }
-
-    private void HandleLobbyPlayerStateChange(NetworkListEvent<LobbyPlayerState> changeEvent)
-    {
-        throw new NotImplementedException();
     }
 }

@@ -10,9 +10,12 @@ using UnityEngine.UI;
 public class LobbyPlayerCard : NetworkBehaviour
 {
     //pannels
-    [SerializeField] private GameObject waitingForPlayerPannel, playerDataPannel;
+    public GameObject waitingForPlayerPannel, playerDataPannel;
+
+    public GameObject playerEntityOBJ;
 
     //player data
-    [SerializeField] private TMP_Text playerName;
-    [SerializeField] private Toggle isPlayerReady;
+    public TMP_Text playerName;
+    public Image playerCardBackground;
+    public Toggle isPlayerReady;
 }

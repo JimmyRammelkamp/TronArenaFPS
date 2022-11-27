@@ -83,7 +83,6 @@ public class PlayerEntity : NetworkBehaviour
             }
         }
     }
-    
     private void Team1Setter()
     {
         team.Value = 1;
