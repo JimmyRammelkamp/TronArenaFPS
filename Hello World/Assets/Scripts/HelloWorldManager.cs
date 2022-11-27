@@ -16,7 +16,7 @@ public class HelloWorldManager : MonoBehaviour
 
     [SerializeField] private GameObject lobbyUI;
     [SerializeField] private Button H1, H2, H3, H4;
-    [SerializeField] private Button startGameButton;
+    [SerializeField] private Button startGameButton, joinGameButton;
     [SerializeField] private bool canStartGame;
 
     private void Start()
@@ -38,6 +38,7 @@ public class HelloWorldManager : MonoBehaviour
 
         //  Lobby Buttons
         startGameButton.onClick.AddListener(OnStartGameServerRpc);
+        joinGameButton.onClick.AddListener(OnJoinGameServerRpc);
 
         NetworkManager.Singleton.OnServerStarted += HandleSeverStarted;
         NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
@@ -83,6 +84,19 @@ public class HelloWorldManager : MonoBehaviour
         {
             _playerEntity.PlayerSpawnServerRpc();
             _playerEntity.hasGameStarted.Value = true;
+        }
+    }
+
+    [ServerRpc]
+    public void OnJoinGameServerRpc()
+    {
+        foreach (PlayerEntity _playerEntity in FindObjectsOfType<PlayerEntity>())
+        {
+            if (_playerEntity.IsOwner)
+            {
+                _playerEntity.PlayerSpawnServerRpc();
+                _playerEntity.hasGameStarted.Value = true;
+            }
         }
     }
 
@@ -142,8 +156,16 @@ public class HelloWorldManager : MonoBehaviour
 
     void Update()
     {
-        
-        helmetText.text = "Helmet " + helmetNum;
+        foreach (PlayerEntity PE in FindObjectsOfType<PlayerEntity>())
+        {
+            if (PE.IsOwnedByServer && PE.hasGameStarted.Value == true)
+            {
+                joinGameButton.gameObject.SetActive(true);
+            }
+            else joinGameButton.gameObject.SetActive(false);
+        }
+
+            helmetText.text = "Helmet " + helmetNum;
 
         if (NetworkManager.Singleton.IsHost) 
         {
