@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class PlayerEntity : NetworkBehaviour
 {
     public NetworkVariable<bool> hasGameStarted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<bool> hasTeamAssigned = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     //Network Variables
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -21,6 +22,7 @@ public class PlayerEntity : NetworkBehaviour
 
     GameObject player;
 
+    public GameObject lobbyUI;
 
     public TextMeshProUGUI button;
 
@@ -34,6 +36,8 @@ public class PlayerEntity : NetworkBehaviour
     {
         team1Button = GameObject.FindGameObjectWithTag("Team1Button").GetComponent<Button>();
         team2Button = GameObject.FindGameObjectWithTag("Team2Button").GetComponent<Button>();
+
+        lobbyUI = GameObject.FindGameObjectWithTag("LobbyUI");
 
         if (IsOwner)
         {
@@ -70,8 +74,6 @@ public class PlayerEntity : NetworkBehaviour
 
             if (hasGameStarted.Value == true)
             {
-                GameObject.FindGameObjectWithTag("LobbyUI").SetActive(false);
-
                 if (activePlayer.Value == false)
                 {
                     spawnButton.gameObject.SetActive(true);
@@ -80,6 +82,7 @@ public class PlayerEntity : NetworkBehaviour
                 {
                     spawnButton.gameObject.SetActive(false);
                 }
+                lobbyUI.SetActive(false);
             }
         }
     }

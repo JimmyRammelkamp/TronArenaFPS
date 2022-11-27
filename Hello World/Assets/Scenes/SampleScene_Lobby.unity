@@ -6226,6 +6226,7 @@ MonoBehaviour:
   H3: {fileID: 765756402}
   H4: {fileID: 1988106219}
   startGameButton: {fileID: 1993287117}
+  canStartGame: 0
 --- !u!114 &1129699679
 MonoBehaviour:
   m_ObjectHideFlags: 0

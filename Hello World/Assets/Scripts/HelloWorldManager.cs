@@ -17,7 +17,7 @@ public class HelloWorldManager : MonoBehaviour
     [SerializeField] private GameObject lobbyUI;
     [SerializeField] private Button H1, H2, H3, H4;
     [SerializeField] private Button startGameButton;
-
+    [SerializeField] private bool canStartGame;
 
     private void Start()
     {
@@ -142,10 +142,31 @@ public class HelloWorldManager : MonoBehaviour
 
     void Update()
     {
+        
         helmetText.text = "Helmet " + helmetNum;
 
-        if (NetworkManager.Singleton.IsHost) startGameButton.gameObject.SetActive(true);
+        if (NetworkManager.Singleton.IsHost) 
+        {
+            startGameButton.gameObject.SetActive(true);
+
+            PlayerEntity[] _playerEntities = FindObjectsOfType<PlayerEntity>();
+
+            for (int i = 0; i < _playerEntities.Length; i++)
+            {
+                if (_playerEntities[i].hasTeamAssigned.Value == true) startGameButton.enabled = true;
+                else
+                {
+                    startGameButton.enabled = false;
+                    break;
+                }
+            }
+        }
         else startGameButton.gameObject.SetActive(false);
+
+        foreach (PlayerEntity playerEntity in FindObjectsOfType<PlayerEntity>())
+        {
+            if (playerEntity.team.Value == 1|| playerEntity.team.Value == 2)playerEntity.hasTeamAssigned.Value = true;
+        }
     }
 
     [ClientRpc]
