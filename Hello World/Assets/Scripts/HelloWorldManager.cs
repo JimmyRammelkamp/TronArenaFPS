@@ -169,13 +169,11 @@ public class HelloWorldManager : MonoBehaviour
 
         if (NetworkManager.Singleton.IsHost) 
         {
-            startGameButton.gameObject.SetActive(true);
-
             PlayerEntity[] _playerEntities = FindObjectsOfType<PlayerEntity>();
 
             for (int i = 0; i < _playerEntities.Length; i++)
             {
-                if (_playerEntities[i].hasTeamAssigned.Value == true) startGameButton.enabled = true;
+                if (_playerEntities[i].hasTeamAssigned.Value == true && _playerEntities[i].isPlayerReady.Value == true) startGameButton.enabled = true;
                 else
                 {
                     startGameButton.enabled = false;
@@ -183,7 +181,6 @@ public class HelloWorldManager : MonoBehaviour
                 }
             }
         }
-        else startGameButton.gameObject.SetActive(false);
 
         foreach (PlayerEntity playerEntity in FindObjectsOfType<PlayerEntity>())
         {

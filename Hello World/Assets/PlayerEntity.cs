@@ -10,6 +10,7 @@ public class PlayerEntity : NetworkBehaviour
 {
     public NetworkVariable<bool> hasGameStarted = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<bool> hasTeamAssigned = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<bool> isPlayerReady = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     //Network Variables
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -29,7 +30,7 @@ public class PlayerEntity : NetworkBehaviour
 
     public Button spawnButton;
 
-    [SerializeField] private Button team1Button, team2Button;
+    [SerializeField] private Button team1Button, team2Button, readyButton;
     
 
     // Start is called before the first frame update
@@ -37,6 +38,7 @@ public class PlayerEntity : NetworkBehaviour
     {
         team1Button = GameObject.FindGameObjectWithTag("Team1Button").GetComponent<Button>();
         team2Button = GameObject.FindGameObjectWithTag("Team2Button").GetComponent<Button>();
+        readyButton = GameObject.FindGameObjectWithTag("ReadyButton").GetComponent<Button>();
 
         lobbyUI = GameObject.FindGameObjectWithTag("LobbyUI");
 
@@ -53,6 +55,7 @@ public class PlayerEntity : NetworkBehaviour
         {
             team1Button.onClick.AddListener(Team1Setter);
             team2Button.onClick.AddListener(Team2Setter);
+            readyButton.onClick.AddListener(IsPlayerReady);
 
             if (Input.GetKeyDown(KeyCode.M))
             {
@@ -95,6 +98,13 @@ public class PlayerEntity : NetworkBehaviour
     {
         team.Value = 2;
     }
+
+    private void IsPlayerReady()
+    {
+        if (isPlayerReady.Value == true) isPlayerReady.Value = false;
+        if (isPlayerReady.Value == false) isPlayerReady.Value = true;
+    }
+
 
     [ServerRpc(RequireOwnership = false)]
     public void PlayerSpawnServerRpc()

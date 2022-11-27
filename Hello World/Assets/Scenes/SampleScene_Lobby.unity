@@ -8485,7 +8485,7 @@ GameObject:
   - component: {fileID: 1833654325}
   m_Layer: 5
   m_Name: ReadyButton
-  m_TagString: Untagged
+  m_TagString: ReadyButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

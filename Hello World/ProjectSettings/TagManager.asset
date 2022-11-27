@@ -11,6 +11,7 @@ TagManager:
   - LobbyUI
   - Team1Button
   - Team2Button
+  - ReadyButton
   layers:
   - Default
   - TransparentFX

@@ -34,6 +34,7 @@ public class LobbyUI : NetworkBehaviour
                 lobbyPlayerCards[i].playerName.text = playerEntities[i].playerName.Value.ToString();
                 if (playerEntities[i].team.Value == 1) lobbyPlayerCards[i].playerCardBackground.color = team1Colour;
                 if (playerEntities[i].team.Value == 2) lobbyPlayerCards[i].playerCardBackground.color = team2Colour;
+                lobbyPlayerCards[i].isPlayerReady.isOn = playerEntities[i].isPlayerReady.Value;
             }
             else
             {
