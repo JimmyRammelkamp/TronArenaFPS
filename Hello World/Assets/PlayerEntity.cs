@@ -24,6 +24,7 @@ public class PlayerEntity : NetworkBehaviour
 
     public GameObject lobbyUI;
 
+
     public TextMeshProUGUI button;
 
     public Button spawnButton;
@@ -141,7 +142,7 @@ public class PlayerEntity : NetworkBehaviour
 
             clientId.Value = (int)OwnerClientId;
 
-            /*if (clientId.Value % 2 == 0)
+            if (clientId.Value % 2 == 0)
             {
                 team.Value = 2;
 
@@ -149,7 +150,7 @@ public class PlayerEntity : NetworkBehaviour
             else
             {
                 team.Value = 1;
-            }*/
+            }
         }
     }
 }
