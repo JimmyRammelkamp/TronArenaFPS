@@ -71,10 +71,10 @@ public class PlayerEntity : NetworkBehaviour
                 }
             }
 
-            if(Input.GetKeyDown(KeyCode.N))
-            {
-                PlayerSpawnServerRpc();
-            }
+            if (Input.GetKeyDown(KeyCode.Alpha1)) helmetSelection.Value = 1;
+            if (Input.GetKeyDown(KeyCode.Alpha2)) helmetSelection.Value = 2;
+            if (Input.GetKeyDown(KeyCode.Alpha3)) helmetSelection.Value = 3;
+            if (Input.GetKeyDown(KeyCode.Alpha4)) helmetSelection.Value = 4;
 
             if (hasGameStarted.Value == true)
             {
@@ -130,7 +130,7 @@ public class PlayerEntity : NetworkBehaviour
             spawnRot = new Quaternion(0f, Random.Range(0f, 360f),0f,0f);
         }
 
-        player = Instantiate(playerprefab,spawnPos,spawnRot);
+        player = Instantiate(playerprefab,spawnPos + new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5)), spawnRot);
         player.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
         player.GetComponent<PlayerController>().playerName.Value = playerName.Value;
         player.GetComponent<PlayerController>().team.Value = team.Value;

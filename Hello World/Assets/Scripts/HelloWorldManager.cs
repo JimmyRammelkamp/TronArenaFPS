@@ -46,6 +46,8 @@ public class HelloWorldManager : MonoBehaviour
 
     public void StartHost()
     {
+        PlayerPrefs.SetString("PlayerName", playerName.text);
+        PlayerPrefs.SetInt("Helmet", helmetNum);
         Int16 p;
         if (!Int16.TryParse(port.text, out p)) return;
         ((UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport).SetConnectionData(IPAddress.text, (ushort)p);
@@ -54,6 +56,8 @@ public class HelloWorldManager : MonoBehaviour
 
     public void StartClient()
     {
+        PlayerPrefs.SetString("PlayerName", playerName.text);
+        PlayerPrefs.SetInt("Helmet", helmetNum);
         Int16 p;
         if (!Int16.TryParse(port.text, out p)) return;
         ((UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport).SetConnectionData(IPAddress.text, (ushort)p);
@@ -62,6 +66,8 @@ public class HelloWorldManager : MonoBehaviour
 
     public void StartServer()
     {
+        PlayerPrefs.SetString("PlayerName", playerName.text);
+        PlayerPrefs.SetInt("Helmet", helmetNum);
         Int16 p;
         if (!Int16.TryParse(port.text, out p)) return;
         ((UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport).SetConnectionData(IPAddress.text, (ushort)p);

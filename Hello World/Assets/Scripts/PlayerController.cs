@@ -8,13 +8,12 @@ using TMPro;
 public class PlayerController : NetworkBehaviour
 {
     [Header("Movement Variables")]
-    public float turnSpeed = 5;
-    public float tiltSpeed = 5;
+    public float turnSpeed = 300;
+    public float tiltSpeed = 3;
     public float walkSpeed = 5;
     public float sprintSpeed = 10;
 
     //camera rotation
-    float rotx;
     float roty;
 
     [Header("Gravity")]
@@ -159,15 +158,10 @@ public class PlayerController : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
 
         if (IsOwner)
         {
-            //playerName.Value = PlayerPrefs.GetString("PlayerName");
-
-            //Helmet Assignment
-            //helmetSelection.Value = PlayerPrefs.GetInt("Helmet");
-
+            
             playerNumber = (int)OwnerClientId;
             Debug.Log(playerName.Value + " is player number " + playerNumber);
 
@@ -185,9 +179,6 @@ public class PlayerController : NetworkBehaviour
 
         AssignAnimationIDs();
 
-        //SpawnServerRpc();
-
-        // SetNameServerRpc(playerName.Value.ToString());
     }
 
     private void AssignAnimationIDs()
@@ -332,10 +323,11 @@ public class PlayerController : NetworkBehaviour
 
 
             //camera rotation
-            rotx += turn * turnSpeed;
+            
             roty += tilt * tiltSpeed;
             roty = Mathf.Clamp(roty, -90f, 90f);
-            transform.rotation = Quaternion.Euler(0f, rotx, 0f);
+           
+            transform.Rotate(new Vector3(0, turn * turnSpeed * Time.deltaTime, 0));
             fpcam.rotation = Quaternion.Euler(-roty, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
           
 
@@ -388,49 +380,17 @@ public class PlayerController : NetworkBehaviour
         // Apply player movement
         characterController.Move(moveDirection * Time.deltaTime);
 
-
-
-
-        //if (playerIsDead.Value == true)
-        //{
-        //    //play death animation
-        //    animator.SetTrigger(animIDDeath);
-        //    Invoke("Spawn", 3);
-        //    FindObjectOfType<DeathmatchManager>().PlayerKilledServerRpc(team.Value);
-        //}
-
-
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    //swap cameras
-        //    topcam.enabled = !topcam.enabled;
-        //    fpcam.GetComponent<Camera>().enabled = !fpcam.GetComponent<Camera>().enabled;
-        //}
-        //  https://addam-davis1989.medium.com/jumping-with-physics-based-character-controller-in-unity-45462a04e62
-
-
-        if (IsOwner) DebugInputs();
+        //if (IsOwner) DebugInputs();
 
     }
 
    
     public void PlayerDead()
     {
-        //Railgun.SetActive(false);
-       //playerChar.SetActive(false);
         ragdollSpawnServerRpc(team.Value, helmetSelection.Value);
         
         FindObjectOfType<DeathmatchManager>().PlayerKilledServerRpc(team.Value);
         DestroyServerRpc();
-    }
-    public void OnDeathStateChanged(bool previous, bool current)
-    {
-        if (playerIsDead.Value == true)
-        {
-            Invoke("Spawn", 3);
-            FindObjectOfType<DeathmatchManager>().PlayerKilledServerRpc(team.Value);
-
-        }
     }
 
     private bool FloorFaceCheck()
@@ -645,9 +605,6 @@ public class PlayerController : NetworkBehaviour
     {
 
         
-        //Spawn();
-       
-
         if (IsOwner && fpcam != null)
         {
             topcam = Camera.main;

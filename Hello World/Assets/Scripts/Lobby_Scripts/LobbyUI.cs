@@ -52,19 +52,5 @@ public class LobbyUI : NetworkBehaviour
             }
 
         }
-
-        //foreach (LobbyPlayerCard playerCards in lobbyPlayerCards)
-        //{
-
-
-        //    if (playerCards.playerEntityOBJ == null)
-        //    {
-        //        playerCards.waitingForPlayerPannel.SetActive(true);
-        //        playerCards.playerDataPannel.SetActive(false);
-
-        //        playerCards.playerName.text = "Player Name";
-        //        playerCards.playerCardBackground.color = Color.black;
-        //    }
-        //}
     }
 }

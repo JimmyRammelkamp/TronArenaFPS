@@ -39,8 +39,8 @@ public class ColourController : MonoBehaviour
         {
             bodyRenderer.material.SetColor("_EmissionColor", team1Color);
             railgunRenderer.material.SetColor("_EmissionColor", team1Color);
+            helmet1Renderer.material.SetColor("_EmissionColor", team1Color);
             helmet2Renderer.material.SetColor("_EmissionColor", team1Color);
-            helmet4Renderer.material.SetColor("_EmissionColor", team1Color);
             helmet3Renderer.material.SetColor("_EmissionColor", team1Color);
             helmet4Renderer.material.SetColor("_EmissionColor", team1Color);
 
@@ -49,8 +49,8 @@ public class ColourController : MonoBehaviour
         {
             bodyRenderer.material.SetColor("_EmissionColor", team2Color);
             railgunRenderer.material.SetColor("_EmissionColor", team2Color);
+            helmet1Renderer.material.SetColor("_EmissionColor", team2Color);
             helmet2Renderer.material.SetColor("_EmissionColor", team2Color);
-            helmet4Renderer.material.SetColor("_EmissionColor", team2Color);
             helmet3Renderer.material.SetColor("_EmissionColor", team2Color);
             helmet4Renderer.material.SetColor("_EmissionColor", team2Color);
         }
@@ -58,8 +58,8 @@ public class ColourController : MonoBehaviour
         {
             bodyRenderer.material.SetColor("_EmissionColor", defaultColor);
             railgunRenderer.material.SetColor("_EmissionColor", defaultColor);
+            helmet1Renderer.material.SetColor("_EmissionColor", defaultColor);
             helmet2Renderer.material.SetColor("_EmissionColor", defaultColor);
-            helmet4Renderer.material.SetColor("_EmissionColor", defaultColor);
             helmet3Renderer.material.SetColor("_EmissionColor", defaultColor);
             helmet4Renderer.material.SetColor("_EmissionColor", defaultColor);
         }

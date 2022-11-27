@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Konst test scene_Lobby.unity
+    guid: 2d3a6ae801800644387586e601145f33
+  - enabled: 1
     path: Assets/Scenes/SampleScene_Lobby.unity
     guid: edf7840b00ff4fd4e8c31e60926f0f65
   - enabled: 1
