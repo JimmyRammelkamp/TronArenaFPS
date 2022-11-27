@@ -29,6 +29,7 @@ public class HelloWorldManager : MonoBehaviour
         port.text = PlayerPrefs.GetString("port");
         if (port.text == "") port.text = ((UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport).ConnectionData.Port.ToString();
         playerName.text = PlayerPrefs.GetString("PlayerName");
+        helmetNum = PlayerPrefs.GetInt("Helmet");
 
         buttonHost.onClick.AddListener(StartHost);
         buttonPlayClient.onClick.AddListener(StartClient);
