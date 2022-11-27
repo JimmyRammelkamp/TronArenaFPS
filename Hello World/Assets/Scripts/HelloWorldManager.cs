@@ -17,7 +17,6 @@ public class HelloWorldManager : MonoBehaviour
     [SerializeField] private GameObject lobbyUI;
     [SerializeField] private Button H1, H2, H3, H4;
     [SerializeField] private Button startGameButton, joinGameButton;
-    [SerializeField] private bool canStartGame;
 
     private void Start()
     {
